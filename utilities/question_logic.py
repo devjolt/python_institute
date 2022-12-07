@@ -277,7 +277,7 @@ def correct_incorrect_helper(correct, incorrect):
     items = populate_items(incorrect, items, id, used)
     return items
 
-def add_code_line(self, line, code):
+def add_code_line(line, code):
     line= choose(line)
     code+= line + '\n'
     return code

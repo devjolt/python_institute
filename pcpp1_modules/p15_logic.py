@@ -1,4 +1,5 @@
 from random import randint, choice
+from datetime import datetime
 
 from python_institute.utilities import utilities as utl
 from python_institute.utilities import helper_functions as hf
@@ -129,7 +130,7 @@ def logging_outcome():
             'import logging',
             'logging.basicConfig()',
             'logger = logging.getLogger()',
-            f'''logger.{choice(["warning('WARNING message')","error('ERROR message')","critical('CRITICAL message')" ])}''',
+            f'''logger.{choice(["warning('WARNING message')","error('ERROR message')","critical('CRITICAL message')"])}''',
         ),
         'Print a logging message in the format LEVEL:root:message'
     )
@@ -272,25 +273,106 @@ def logging_set_level_find_the_line():
     question.append({'code':code})
     return question, items 
 
+
+
 """
 import logging
-
 FORMAT = '%(name)s:%(levelname)s:%(asctime)s:%(message)s'
-
-logger = logging.getLogger(__name__)
-
+logger = logging.getLogger(__name__)# __name__ or none
 handler = logging.FileHandler('prod.log', mode='w')
 handler.setLevel(logging.CRITICAL)
-
 formatter = logging.Formatter(FORMAT)
 handler.setFormatter(formatter)
-
 logger.addHandler(handler)
-
 logger.critical('Your CRITICAL message')
+
+outcomes:
+format string vars - name, level, time, message
+runs successfully, but no log
+Error 
 
 https://docs.python.org/3/library/logging.html#logrecord-attributes
 """
+
+def logging_advanced_outcome():
+    filename = choice(lc.filenames)
+    level = randint(0, 5)
+
+    log_level_dict = {
+        0:'NOTSET',
+        1:'DEBUG',
+        2:'INFO',
+        3:'WARNING',
+        4:'ERROR',
+        5:'CRITICAL',
+    }
+
+    legit_levels = [log_level_dict[i] for i in range(level, 6)]
+    logged_level = choice(legit_level)
+    non_legit_levels = [log_level_dict[i] for i in range(0,level+1)]
+
+    name = choice(['__name__', None, choice(lc.filenames)])
+    format_name = 'root' if name is None else name
+    now = datetime.now() # current date and time
+    ms = now.strftime("%f")[:3]
+    format_time = now.strftime("%Y-%d-%m %H:%M:%S,") + ms
+
+    valid = choice([
+    (
+        (
+            "import logging",
+            "FORMAT = '%(name)s:%(levelname)s:%(asctime)s:%(message)s'",
+            f"logger = logging.getLogger({name})",
+            "handler = logging.FileHandler('prod.log', mode='w')",
+            f"handler.setLevel(logging.{log_level_dict[level]})",
+            "formatter = logging.Formatter(FORMAT)",
+            "handler.setFormatter(formatter)",
+            "logger.addHandler(handler)",
+            f"logger.{logged_level.lower()}('{logged_level} message')",
+        ),
+        f'{format_name}:{logged_level}:{format_time}:{log_level_dict[level]} message'
+    ),
+    ])
+
+    invalid = (
+        (
+            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}"),'$ModuleNotFoundError'),
+            (('import',),'$SyntaxError'),
+            ((f"from logging import {choice(['log','makelogger','Logging','logging'])}",),'$ImportError'),
+        ),(
+            ((f"FORMAT = '%(message)s:%(name)s:%(levelname)s:%(asctime)s'",),f'{log_level_dict[level]} message:{format_name}:{logged_level}:{format_time}'),
+            ((f"FORMAT = '%(asctime)s:%(message)s:%(name)s:%(levelname)s'",),f'{format_time}:{log_level_dict[level]} message:{format_name}:{logged_level}'),
+            ((f"FORMAT = '%(levelname)s:%(asctime)s:%(message)s:%(name)s'",),f'{logged_level}:{format_time}:{log_level_dict[level]} message:{format_name}'),
+        ),(
+            ((f'logger= logg.getLogger({name})',f'logger= log.getLogger({name})',f'logging.getLogger({name})'),'$NameError'),
+            ((f"logger = logging.Logger({name})", f'logger = logging.getLog({name})', f'logger = logging.makeLogger({name})'),'$AttributeError'),
+        ),(
+            ((f"handler = log.FileHandler('prod.log', mode='w')","handler = logga.FileHandler('prod.log', mode='w')","handler = logstart.FileHandler('prod.log', mode='w')"),'$NameError'),
+            ((f"handler = logging.LogParser('prod.log', mode='w')", "handler = logging.LogHandler('prod.log', mode='w')", f"handler = logging.Handler('prod.log', mode='w')"),'$AttributeError'),
+        ),(
+            ((f"handle.setLevel(logging.{log_level_dict[level]})",f"handle.setLevel(log.{log_level_dict[level]})"),'$NameError'),
+            ((f"handler.setLevel()"),'$TypeError'),
+        ),(
+            ((f"formatter = log.Formatter(FORMAT)",f"formatter = handle.Formatter(FORMAT)",f"formatter = handle.Formatter(FORM)",),'$NameError'),
+            ((f"formatter = logger.FormatString(FORMAT)", f"formatter = logger.FormatLog(FORMAT)"),'$AttributeError'),
+        ),(
+            (("loghandler.setFormatter(formatter)","handler.setFormatter(message)","fileHandler.setFormatter(formatter)",),'$NameError'),
+            (("handler.Format(formatter)","handler.makeFormatter(formatter)","handler.setHandler(formatter)",),'$AttributeError'),
+        ),(
+            (("logs.addHandler(handler)","logFile.addHandler(handler)","logLevel.addHandler(handler)","logFile.addHandler(logHandler)","logLevel.addHandler(fileHandler)"),'$NameError'),
+            (("logger.makeHandler(handler)","logger.addLogHandler(handler)","logger.addFileHandler(handler)",),'$AttributeError'),
+        ),(
+            ((f'''logger.{choice([f"{item.lower()}('{item} message')" for item in non_legit_levels])}''',),'$No output'),
+            ((f'''logger.{choice(["nolevel('NOLEVEL message')","problem('PROBLEM message')"]+[f"{item}('{item} message')" for item in non_legit_levels])}''',),'$AttributeError'),
+            ((f'''logger.{choice(["warning()","error()","critical()"])}''',),'$TypeError'),
+        )
+    )
+
+    items, code = ql.make_outcome_items_code(valid, invalid)
+    question = [{'text':'What will be the outcome of the following code?'}]
+    question.append({'code':code})
+    return question, items
+
 
 def configparser_find_the_line():
     filename = choice(lc.filenames)

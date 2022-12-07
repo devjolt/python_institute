@@ -650,8 +650,8 @@ questions = {
     'logging_find_the_line':logging_find_the_line,
     'logging_set_level_outcome':logging_set_level_outcome,
     'logging_set_level_find_the_line':logging_set_level_find_the_line,
+    'logging_advanced_outcome':logging_advanced_outcome,
     
-
 ##default formatting of root logger
 #what do xml, ini... files have
 
