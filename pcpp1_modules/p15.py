@@ -1,6 +1,12 @@
 from .p15_logic import *
 from random import randint
 
+"""
+Note:
+some of the below structures fail to display answers/questions as code:
+Which of the following are not a SQLite3 method? (multi option)
+
+"""
 
 questions = {
 
@@ -154,7 +160,7 @@ questions = {
             'SQLite supports transactions',
             'SQLite can be used in mobile applications',
             'SQLite files are cross platform',
-            'SQLite database files can be copied between 32 adn 64 bit systems'
+            'SQLite database files can be copied between 32 and 64 bit systems'
             ),
         'incorrect': (
             'SQLite is a Python library',
@@ -222,7 +228,7 @@ questions = {
 
     'Python sqlite': {
         'question_with_0':['Which comment would best fit the following code?','PLACEHOLDER'],
-        'question_with_1':'Which snippet will PLACEHOLDER?',
+        'question_with_1':'When using SQLite3, which snippet will PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
         'course_code':'1.1.4',
         'pairs':(
@@ -324,7 +330,7 @@ questions = {
         'incorrect': (
             '$disconnect','$makeconnection''$conn','$closeconn',
             '$curse','$cur','$makecursor',
-            '$executeone','$executall','$executsome','$executeonebyone',
+            '$executeone','$executeall','$executsome','$executeonebyone',
             '$fetchmany', '$fetchsome','$fetchparse'
             )
     },
@@ -534,7 +540,7 @@ questions = {
         )
     },
     'XML statements':{
-        'question':"Which of the following are PLACEHOLDER correct?",
+        'question':"Considering XML, which of the following are PLACEHOLDER correct?",
         'positive':'',
         'negative':'not',
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
@@ -572,6 +578,35 @@ questions = {
         },
 
 ################################
+    'logging true and false':{
+        'question':"Considering logging, which of the following is PLACEHOLDER true?",
+        'positive':'',
+        'negative':'not',
+        'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
+        'course_code':'',
+        'correct':(
+            'one application may have several loggers', 
+            'the root logger is at the highest point in the heirarchy',
+            'loggers created using the name argument have the NOTSET level set by default',
+            'logger level is set based on the levels of subsequent parents in the hierarchy',
+            'each log level has a name and a numeric value.',
+            'log levels can be user defined',
+            "WARNING is the logger's default level",
+        ),
+        'incorrect': (
+            'one logger may exist per application', 
+            'the root logger is at the lowest point in the heirarchy',
+            f"loggers created using the name argument have the {choice(['INFO','WARNING','ERROR','CRITICAL'])} level set by default",
+            'logger level is set based on the levels of children in the hierarchy',
+            'each log level has a name and a date value',
+            'log levels must be user defined',
+            "NOTSET is the logger's default level",
+            "INFO is the logger's default level",
+            "DEBUG is the logger's default level",
+            "CRITICAL is the logger's default level",
+            "ERROR is the logger's default level",
+        )
+    },
 
 
     'Log levels': {
@@ -591,11 +626,34 @@ questions = {
         )
     },
 
+    'logging true and false':{
+        'question':"Which of these are PLACEHOLDER examples of default log formatting?",
+        'positive':'',
+        'negative':'not',
+        'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
+        'course_code':'',
+        'correct':(
+            f"{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}:root:message",
+        ),
+        'incorrect': (
+            f"{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}{choice([';',',','-'])}root{choice([';',',','-'])}message", 
+            f"{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}:message:root",
+            f"root:{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}:message",
+            f"root:message:{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}",
+            f"message:{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}:root",
+            f"message:root:{choice(['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'])}",
+        )
+    },
+
     'log_level_order':log_level_order,
+    'logging_outcome':logging_outcome,
+    'logging_find_the_line':logging_find_the_line,
+    'logging_set_level_outcome':logging_set_level_outcome,
+    'logging_set_level_find_the_line':logging_set_level_find_the_line,
+    
 
-
-
-
+##default formatting of root logger
+#what do xml, ini... files have
 
 ##############################
     'INI files key value entries':{
@@ -649,8 +707,30 @@ questions = {
         'fillers': (
         )
     },
-
-
+    'configparser code': {
+        'question_with_0':['What comment best matches the following code:','PLACEHOLDER'],
+        'question_with_1':'Which line of code is best described by PLACEHOLDER?',
+        'type':'make_items_question_from_pairs',
+        'course_code':'1.1.5',
+        'pairs':(
+            ("$config.write(configfile)", ('$write to a config file')),
+            ("$config = configparser.ConfigParser()", ('$create a config object')),
+            ("$config.read_dict(dict)", ('$read a dictionary into a config object')),
+            ("$config.sections()", ('$return a list of sections')),
+            (f"""$config[{choice(['"DEFAULT"', '"MAIN"', '"WINDOWS"', '"MAC"', '"UBUNTU"', '"PYTHON"'])}]""", ('$create a section in a config dictionary')),
+            (f"config.read('config.ini')", ('$read an ini file'))
+        
+        ),
+        'fillers': (
+            (f"config.readFile('config.ini')", ('$returns the comments in an ini file', '$returns the comments in an ini file by section', '$returns only one section of an ini file')),
+            ("$config.read(configfile)", ('$purge all sections from a config file')),
+            ("$config.writeDict(dict)", ('$add comments to a config file')),
+            ("$config.sections(section_list)", ('$create sections in a config object')),
+            (f"$config[{choice(['DEFAULT', 'MAIN', 'WINDOWS', 'MAC', 'UBUNTU', 'PYTHON'])}]", ('$create elements in a config dictionary'))
+        ),
+    },
+    'configparser find the line':configparser_find_the_line,
+    'configparser outcome':configparser_outcome,
 
 }
 
