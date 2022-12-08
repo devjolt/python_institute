@@ -497,6 +497,7 @@ questions = {
             ("$XML", ("parses an XML section from a string constant")),
             ("$XMLID", ("Parses an XML section from a string constant, and also returns a dictionary which maps from element id:s to elements")),
             ("$getroot", ("returns the root element for this tree")),
+            ("$set", ("create an attribute key and element value")),
         ),
         'fillers': (),
     },
