@@ -308,7 +308,7 @@ def logging_advanced_outcome():
     }
 
     legit_levels = [log_level_dict[i] for i in range(level, 6)]
-    logged_level = choice(legit_level)
+    logged_level = choice(legit_levels)
     non_legit_levels = [log_level_dict[i] for i in range(0,level+1)]
 
     name = choice(['__name__', None, choice(lc.filenames)])
