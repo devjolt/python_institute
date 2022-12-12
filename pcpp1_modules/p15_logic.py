@@ -91,22 +91,23 @@ def sqlite_outcome():
             (('import',),'$SyntaxError'),
             (('from sqlite3 import sql',),'$ImportError'),
         ),(
-            ((f"conn = sqlite.connect('{filename}.db')",f"conn = sqlite2.connect('{filename}.db')"),'$NameError'),
-            ((f"connect = sqlite3.conn('{filename}.db')",f"conn = sqlite3.open('{filename}.db')"),'$AttributeError'),
-            ((f"conn = sqlite3.connect('{filename}.db'",f"conn = sqlite3.connect('{filename}.db)"),'$SyntaxError'),
+            ((f"conn = sqlite.connect('{filename}.db')",f"conn = sqlite2.connect('{filename}.db')",),'$NameError'),
+            ((f"connect = sqlite3.conn('{filename}.db')",f"conn = sqlite3.open('{filename}.db')",),'$AttributeError'),
+            ((f"conn = sqlite3.connect('{filename}.db'",f"conn = sqlite3.connect('{filename}.db)",),'$SyntaxError'),
             ((f"conn = sqlite3.connect()",),'Run without errors but create no database file'),
             ((f"conn = sqlite3.connect(':memory:')",),'Run without errors creating and closing a temporary database'),
         ),(
-            (('c = cursor()', 'c = curse()', 'c = conncursor()'),'$NameError'),
-            (('c = conn.curse()', 'c = conn.connection()'),'$AttributeError'),
+            (('c = cursor()', 'c = curse()', 'c = conncursor()',),'$NameError'),
+            (('c = conn.curse()', 'c = conn.connection()',),'$AttributeError'),
             (('c = conn.curse',),'Run without errors, but without a cursor object being created'),
-            (('c = conn.curse)','c : conn.curse()'),'$SyntaxError'),    
+            (('c = conn.curse)','c : conn.curse()',),'$SyntaxError'),    
         ),(
             (('conn.comit()',),'$AttributeError'),
         ),(
             (('c.close()',),'$AttributeError'),
         )
     )
+    
     items, code = ql.make_outcome_items_code(valid, invalid)
     question = [{'text':'What will be the outcome of the following code?'}]
     question.append({'code':code})
@@ -136,15 +137,15 @@ def logging_outcome():
     )
     invalid = (
         (
-            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}"),'$ModuleNotFoundError'),
+            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}",),'$ModuleNotFoundError'),
             (('import',),'$SyntaxError'),
             ((f"from logging import {choice(['log','makelogger','Logging','logging'])}",),'$ImportError'),
         ),(
-            ((f"logging = basicConfig()","logger.basicConfig()"),'$NameError'),
-            ((f"logging.{choice(['Config','Conf','Parseconfig','Configparse','configparser','log'])}()"),'$AttributeError'),
+            ((f"logging = basicConfig()","logger.basicConfig()",),'$NameError'),
+            ((f"logging.{choice(['Config','Conf','Parseconfig','Configparse','configparser','log'])}()",),'$AttributeError'),
         ),(
-            ((f'logger= logg.getLogger()',f'logger= log.getLogger()','logging.getLogger()'),'$NameError'),
-            ((f"logger = logging.Logger()", f'logger = logging.getLog()', 'logger = logging.makeLogger()'),'$AttributeError'),
+            ((f'logger= logg.getLogger()',f'logger= log.getLogger()','logging.getLogger()',),'$NameError'),
+            ((f"logger = logging.Logger()", f'logger = logging.getLog()', 'logger = logging.makeLogger()',),'$AttributeError'),
         ),(
             ((f'''logger.{choice(["info('INFO message')","debug('DEBUG message')"])}''',),'$No output'),
             ((f'''logger.{choice(["nolevel('NOLEVEL message')","problem('PROBLEM message')","WARNING('WARNING message')","ERROR('ERROR message')","CRITICAL('CRITICAL message')"])}''',),'$AttributeError'),
@@ -154,6 +155,7 @@ def logging_outcome():
     items, code = ql.make_outcome_items_code(valid, invalid)
     question = [{'text':'What will be the outcome of the following code?'}]
     question.append({'code':code})
+    print(code)
     return question, items 
 
 def logging_find_the_line():
@@ -219,15 +221,15 @@ def logging_set_level_outcome():
 
     invalid = (
         (
-            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}"),'$ModuleNotFoundError'),
+            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}",),'$ModuleNotFoundError'),
             (('import',),'$SyntaxError'),
             ((f"from logging import {choice(['log','makelogger','Logging','logging'])}",),'$ImportError'),
         ),(
-            ((f"logging = basicConfig()","logger.basicConfig()"),'$NameError'),
-            ((f"logging.{choice(['Config','Conf','Parseconfig','Configparse','configparser','log'])}()"),'$AttributeError'),
+            ((f"logging = basicConfig()","logger.basicConfig()",),'$NameError'),
+            ((f"logging.{choice(['Config','Conf','Parseconfig','Configparse','configparser','log'])}()",),'$AttributeError'),
         ),(
-            ((f'logger= logg.getLogger()',f'logger= log.getLogger()','logging.getLogger()'),'$NameError'),
-            ((f"logger = logging.Logger()", f'logger = logging.getLog()', 'logger = logging.makeLogger()'),'$AttributeError'),
+            ((f'logger= logg.getLogger()',f'logger= log.getLogger()','logging.getLogger()',),'$NameError'),
+            ((f"logger = logging.Logger()", f'logger = logging.getLog()', 'logger = logging.makeLogger()',),'$AttributeError'),
         ),(
             ((f'''logger.{choice([f"{item.lower()}('{item} message')" for item in non_legit_levels])}''',),'$No output'),
             ((f'''logger.{choice(["nolevel('NOLEVEL message')","problem('PROBLEM message')"]+[f"{item}('{item} message')" for item in non_legit_levels])}''',),'$AttributeError'),
@@ -336,7 +338,7 @@ def logging_advanced_outcome():
 
     invalid = (
         (
-            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}"),'$ModuleNotFoundError'),
+            ((f"import {choice(['log','Logging','logger','Logger', 'LogRecord'])}",),'$ModuleNotFoundError'),
             (('import',),'$SyntaxError'),
             ((f"from logging import {choice(['log','makelogger','Logging','logging'])}",),'$ImportError'),
         ),(
@@ -344,22 +346,22 @@ def logging_advanced_outcome():
             ((f"FORMAT = '%(asctime)s:%(message)s:%(name)s:%(levelname)s'",),f'{format_time}:{log_level_dict[level]} message:{format_name}:{logged_level}'),
             ((f"FORMAT = '%(levelname)s:%(asctime)s:%(message)s:%(name)s'",),f'{logged_level}:{format_time}:{log_level_dict[level]} message:{format_name}'),
         ),(
-            ((f'logger= logg.getLogger({name})',f'logger= log.getLogger({name})',f'logging.getLogger({name})'),'$NameError'),
-            ((f"logger = logging.Logger({name})", f'logger = logging.getLog({name})', f'logger = logging.makeLogger({name})'),'$AttributeError'),
+            ((f'logger= logg.getLogger("{name}")',f'logger= log.getLogger("{name}")',f'logging.getLogger("{name}")',),'$NameError'),
+            ((f'logger = logging.Logger("{name}")', f'logger = logging.getLog("{name}")', f'logger = logging.makeLogger("{name}")',),'$AttributeError'),
         ),(
-            ((f"handler = log.FileHandler('prod.log', mode='w')","handler = logga.FileHandler('prod.log', mode='w')","handler = logstart.FileHandler('prod.log', mode='w')"),'$NameError'),
-            ((f"handler = logging.LogParser('prod.log', mode='w')", "handler = logging.LogHandler('prod.log', mode='w')", f"handler = logging.Handler('prod.log', mode='w')"),'$AttributeError'),
+            ((f"handler = log.FileHandler('prod.log', mode='w')","handler = logga.FileHandler('prod.log', mode='w')","handler = logstart.FileHandler('prod.log', mode='w')",),'$NameError'),
+            ((f"handler = logging.LogParser('prod.log', mode='w')", "handler = logging.LogHandler('prod.log', mode='w')", f"handler = logging.Handler('prod.log', mode='w')",),'$AttributeError'),
         ),(
-            ((f"handle.setLevel(logging.{log_level_dict[level]})",f"handle.setLevel(log.{log_level_dict[level]})"),'$NameError'),
+            ((f"handle.setLevel(logging.{log_level_dict[level]})",f"handle.setLevel(log.{log_level_dict[level]})",),'$NameError'),
             ((f"handler.setLevel()"),'$TypeError'),
         ),(
             ((f"formatter = log.Formatter(FORMAT)",f"formatter = handle.Formatter(FORMAT)",f"formatter = handle.Formatter(FORM)",),'$NameError'),
-            ((f"formatter = logger.FormatString(FORMAT)", f"formatter = logger.FormatLog(FORMAT)"),'$AttributeError'),
+            ((f"formatter = logger.FormatString(FORMAT)", f"formatter = logger.FormatLog(FORMAT)",),'$AttributeError'),
         ),(
             (("loghandler.setFormatter(formatter)","handler.setFormatter(message)","fileHandler.setFormatter(formatter)",),'$NameError'),
             (("handler.Format(formatter)","handler.makeFormatter(formatter)","handler.setHandler(formatter)",),'$AttributeError'),
         ),(
-            (("logs.addHandler(handler)","logFile.addHandler(handler)","logLevel.addHandler(handler)","logFile.addHandler(logHandler)","logLevel.addHandler(fileHandler)"),'$NameError'),
+            (("logs.addHandler(handler)","logFile.addHandler(handler)","logLevel.addHandler(handler)","logFile.addHandler(logHandler)","logLevel.addHandler(fileHandler)",),'$NameError'),
             (("logger.makeHandler(handler)","logger.addLogHandler(handler)","logger.addFileHandler(handler)",),'$AttributeError'),
         ),(
             ((f'''logger.{choice([f"{item.lower()}('{item} message')" for item in non_legit_levels])}''',),'$No output'),
@@ -408,17 +410,17 @@ def configparser_outcome():
     )
     invalid = (
         (
-            ((f"import {choice(['config','conf','parseconfig','configparse'])}"),'$ModuleNotFoundError'),
+            ((f"import {choice(['config','conf','parseconfig','configparse'])}",),'$ModuleNotFoundError'),
             (('import',),'$SyntaxError'),
             ((f"from configparser import {choice(['config','conf','parseconfig','parse'])}",),'$ImportError'),
         ),(
             ((f"config = {choice(['config','conf','parseconfig','configparse'])}.ConfigParser()",'config == configparser.ConfigParser()','configparser.ConfigParser()'),'$NameError'),
-            ((f"config = configparser.{choice(['Config','Conf','Parseconfig','Configparse','configparser'])}()"),'$AttributeError'),
+            ((f"config = configparser.{choice(['Config','Conf','Parseconfig','Configparse','configparser'])}()",),'$AttributeError'),
         ),(
             ((""),'Print an empty list'),
             ((f"config.read('{filename}.ini'",f"config.read('{filename}.ini)",f"config.read({filename}.ini')"),'$SyntaxError'),
             ((f"config.read({filename}.ini)", f'read("{filename}.ini")'),'$NameError'),
-            ((f"config.{choice(['get','readfile','parse','readall'])}('{filename}.ini')"),'$AttributeError'),
+            ((f"config.{choice(['get','readfile','parse','readall'])}('{filename}.ini')",),'$AttributeError'),
         ),(
             (("config.sections","config.sections()",),'$No output'),
             (("print(sections())",'sections()', 'Config.sections', "print('Config.sections()')"),'$NameError'),

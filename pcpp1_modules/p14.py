@@ -11,7 +11,7 @@ questions = {
         'question_with_0':'What does PLACEHOLDER mean?',
         'question_with_1':'',
         'type':'make_items_question_from_pairs',
-        'course_code':'',
+        'course_code':'1.1.1.2',
         'pairs':(
             ('representational', 'data or states are retained inside the system and presented to the users'),
             ('state', "the values of an object's set of properties"),
@@ -29,7 +29,7 @@ questions = {
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
         'negative':'incorrect',
-        'course_code':'',
+        'course_code':'1.1.1.2',
         'correct':(
             'REST data is always text',
             'REST is focused on data which reflects states',
@@ -60,7 +60,7 @@ questions = {
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
         'negative':'incorrect',
-        'course_code':'',
+        'course_code':'1.1.1.3',
         'correct':(
             'a socket is a kind of end-point',
             'an end point is where data is available and where it may be sent to',
@@ -85,7 +85,7 @@ questions = {
 
     'Berkeley Software Distribution sockets': {
         'question_with_0':'What is PLACEHOLDER?',
-        'question_with_1':'',
+        'question_with_1':'1.1.1.3',
         'type':'make_items_question_from_pairs',
         'course_code':'',
         'pairs':(
@@ -107,7 +107,7 @@ questions = {
         'question_with_0':'What is PLACEHOLDER?',
         'question_with_1':'',
         'type':'make_items_question_from_pairs',
-        'course_code':'',
+        'course_code':'1.1.1.4',
         'pairs':(
             ('the Unix domain', 'the part of BSD sockets used to communicate programs working within one operating system'),
             (('the Internet domain', 'INET'), "part of BSD socket API used to communicate programs working within different computer systems, connected together using a TCP/IP network"),
@@ -129,7 +129,7 @@ questions = {
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
         'negative':'incorrect',
-        'course_code':'',
+        'course_code':'1.1.1.4',
         'question':'Which of the following statements is PLACEHOLDER?',
         'correct':(
             'Unix domain is used for programs working within one operating system to communicate',
@@ -161,7 +161,7 @@ questions = {
         'type':'make_items_question_from_pairs',
         'course_code':'',
         'question_with_0':'What is PLACEHOLDER?',
-        'question_with_1':'',
+        'question_with_1':'1.1.1.5',
         'pairs':(
             ('a protocol stack', 'a multilayer set of cooperating protocols providing a unified repertoire of services'),
             (('IP', 'internetwork protocol'), ("one of the lowest parts of TCP/IP protocol stack", 'able to send a packet of data between two network nodes', 'a very unreliable protocol')),
@@ -180,7 +180,7 @@ questions = {
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
         'negative':'incorrect',
-        'course_code':'',
+        'course_code':'1.1.1.5',
         'question':'Which of the following statements is PLACEHOLDER?',
         'correct':(
             'the upper TCP/IP layers compensate for the unreliability of the lower layers',
@@ -222,7 +222,7 @@ questions = {
         'type':'make_items_question_from_pairs',
         'course_code':'',
         'question_with_0':'What is PLACEHOLDER?',
-        'question_with_1':'',
+        'question_with_1':'1.1.1.6',
         'pairs':(
             ('connection-oriented communication', ('usually built on TCP', 'a communication process where both parties have different roles and routines',"a communication process where both parties aren't symmertrical",  'a communication process where both parties are aware that the other party is connected','communication which demands some preliminary steps to establish the connection and other steps to finish it')),
             ('connectionless communication', ('usually built on UDP', 'communication which can be established ad-hoc', 'communication where both parties have equal rights', 'communication where neither parties are aware of the other side\'s state')),
@@ -241,7 +241,7 @@ questions = {
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
         'negative':'incorrect',
-        'course_code':'',
+        'course_code':'1.1.1.6',
         
         'question':'Which of the following statements is PLACEHOLDER?',
         'correct':(
@@ -274,8 +274,7 @@ questions = {
 
     'How to use sockets in Python': {
         'type':'make_items_question_from_pairs',
-        'course_code':'',
-        
+        'course_code':'1.2.1.1',
         'question_with_0':['Match the following code and commentary:','PLACEHOLDER'],
         'question_with_1':'',
         'pairs':(
@@ -285,7 +284,6 @@ questions = {
             (('$type = socket.SOCK_STREAM', '$socket.SOCK_STREAM'), ('specify a high-level socket able to act as a character device', 'transfer data byte by byte, not as fixed sized blocks')),
             (('$type = socket.SOCK_DGRAM', '$socket.SOCK_DGRAM'), 'specify a socket for use with UDP if used when creating a socket'),    
         ),
-
         'fillers': (
             ('$import time', 'message server'),
             ('$import sockets', 'recieve initial data protocol'),
@@ -480,6 +478,48 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         ),
     },
     'JSON dumps':json_dumps,
+    'JSON value support':{
+        'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
+        'positive':'correct',
+        'negative':'incorrect',
+        'course_code':'1.3.1',      
+        'question':'Which of the following values are supported by json?',
+        'correct':(
+            f'{randint(1, 100)}', 
+            f'int({randint(1, 100)})',
+        ),
+        'incorrect' :(
+            f'bin({randint(1, 100)})', 
+            f'oct({randint(1, 100)})',
+            f'hex({randint(1, 100)})',        
+        ),
+    },
+    # requests methods
+    # code outcomes
+    # return request object meanings #https://pypi.org/project/requests/
+    # status code meanings
+    # keep alive
+    # on a valid url, requests always returns an object
+    # no connection raises exception
+    # crud acronym
+    # python sock
+    # valid port or service number
+    # valid numbers...
+    # valid json string
+    # json equivalences
+    # dtd
+    # json at 427
+    # json module
+    # 
+    
+    #new code question type with same data:
+    #four alternatives, and say which will get the answer we ask for
+    #radmonly select a number of lines to go down the code
+    #each correct line of code also has as an arg what will happen if only goes that far
+    #make question code, and ask what will happen. 
+    
+    
+
 }
     
     

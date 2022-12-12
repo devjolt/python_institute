@@ -247,10 +247,10 @@ def add_item(item, indicator, items, id, used):
     return items, id, used
     
 def add_possible_code_item(item, indicator, items, id, used, comment = False):
-    print('adding possible code item:', id, item)
+    #print('adding possible code item:', id, item)
     items = list(items)
     if item[0] == '$':
-        print('code item:')
+        print('code item:',id, item)
         items.append({'code':item[1:], 'indicator':indicator, 'id':f'item{id}'})
     else:
         if comment != True:
@@ -259,7 +259,7 @@ def add_possible_code_item(item, indicator, items, id, used, comment = False):
             items.append({'code':'#' + item, 'indicator':indicator, 'id':f'item{id}'})
     id+=1
     used.append(item)
-    print(item)
+    #print(item)
     return items, id, used
 
 def populate_items(incorrect, items, id, used, comment = False):
@@ -278,10 +278,10 @@ def correct_incorrect_helper(correct, incorrect):
     return items
 
 def add_code_line(line, code):
-    line= choice(line)
+    while type(line) is not str:
+        line= choice(line)
     code+= line + '\n'
     return code
-
 
 #Functions directly handling dictionary question types 
 def multi_option_from_correct_incorrect(resource):
@@ -865,6 +865,7 @@ def generic_correct_order(num_choices, question_text, ascending_order, descendin
     return question, items
 
 def make_outcome_items_code(valid, invalid):
+    print('make outcome items code in python institute utilities')
     items, id, used = [], 1, []
     code = ''''''
     """items in invalid:
@@ -886,7 +887,7 @@ def make_outcome_items_code(valid, invalid):
         return None
     #choose between one incorrect vs all correct
     if randint(0,3) not in [0]:#3/4 chance of having question with one incorrect line
-        print('one incorrect')
+        #print('one incorrect')
         invalid_index = randint(0, len(valid[0])-1)#choose index of incorrect line   
         items.append({'item':valid[1], 'indicator':'incorrect', 'id':f'item{id}'})#incorrect item: code outcome successful
         id+=1#increment id
@@ -898,17 +899,19 @@ def make_outcome_items_code(valid, invalid):
         correct_invalid_line = lf.pick_one(correct_invalid_line)
 
         items, id, used = add_possible_code_item(correct_invalid_outcome, 'correct', items, id, used)
-        
+        #print('one wrong')
         #select two other invalid outcomes NOT THE SAME AS THE correct answer
-        while len(used)!=3:
+        while len(used)!=3:    
             #select another invalid answer NOT matching index of correct_answer
-            line= lf.pick_one(invalid)#picking a line to take an error from
+            if type(invalid) is not str:
+                line= lf.pick_one(invalid)#picking a line to take an error from
             attempt= lf.pick_one(line)[1]#pick an item from the line and get the error at index[1] 
             if attempt not in used:
                 items, id, used, = add_possible_code_item(attempt, 'incorrect', items, id, used)
 
         valid_lines = valid[0]
-        print(valid_lines)
+        #print('invalid_index',invalid_index)
+        #print('valid_lines',valid_lines)
         #build code string
         for i in range(len(valid_lines)):
             if i == invalid_index:
@@ -917,7 +920,7 @@ def make_outcome_items_code(valid, invalid):
                 valid_line = valid_lines[i]#first item in valid[i] tuple
                 code = add_code_line(valid_line, code)
     else:#all correct
-        print('all correct')
+        #print('all correct')
         items.append({'item':valid[1], 'indicator':'correct', 'id':f'item{id}'})#use a correct answer
         id+=1#increment id
         #select three random unique incorrect answers
@@ -937,7 +940,7 @@ def make_error_line_items_code(valid, invalid):
     code = ''''''
 
     if randint(0, 1) == 0:#the code will fail...
-        print('Code will fail')
+        #print('Code will fail')
         #pick which line will cause failure
         error_line = randint(0, len(valid)-1)
         items.append({'item':error_line+1, 'indicator':'correct', 'id':f'item{id}'})
@@ -951,7 +954,7 @@ def make_error_line_items_code(valid, invalid):
         used = [str(error_line+1)]
         while len(items) != 4:
             num = str(lf.pick_one(nums) +1)
-            print(num, used)
+            #print(num, used)
             if num not in used:
                 items, id, used = add_possible_code_item(num, 'incorrect', items, id, used)
         
@@ -962,7 +965,7 @@ def make_error_line_items_code(valid, invalid):
             else: 
                 code+= lf.pick_one_from_nested(valid[i]) + '\n'
     else:#the code will actually not fail
-        print('Code will NOT fail WILL RUN')
+        #print('Code will NOT fail WILL RUN')
         items.append({'item':'The code will execute successfully', 'indicator':'correct', 'id':f'item{id}'})
         id+=1
         nums = [i for i in range(len(valid))]
@@ -1106,6 +1109,7 @@ class Outcome(Question):
         if len(valid[0]) != len(invalid):
             print(f'Valid len ({len(valid[0])}) != invalid len ({len(invalid)})')
             return None
+
         #choose between one incorrect vs all correct
         if randint(0,3) in [0,1,2]:#one incorrect
             print('one correct')
@@ -1129,11 +1133,14 @@ class Outcome(Question):
 
             #build code string
             for i in range(len(valid[0])):
+                # index of line which 
                 if i == invalid_index:
                     self.add_code_line(correct_invalid_line)
+                    print('correct_invalid_line:',correct_invalid_line)
                 else:
                     valid_line = valid[0][i]
                     self.add_code_line(valid_line)
+                    print('valid_line:',valid_line)
         else:#all correct
             print('all correct')
             self.items.append({'item':valid[1], 'indicator':'correct', 'id':f'item{self.id}'})#use a correct answer
@@ -1313,6 +1320,7 @@ def which_line_causes_an_error_because(resource):
 
 
 def what_is_the_outcome_from_the_following_code(resource):
+    print('what_is_the_outcome_from_the_following_code?')
     # if outcome is run successfully
     # pick one of each correct lines and correct answer is comment from final line
     # elif fail, 
@@ -1321,6 +1329,7 @@ def what_is_the_outcome_from_the_following_code(resource):
     # lines after incorrect line can be valid or invalid
     # one incorrect answer is comment from successful final line
     # other incorrect answers are random incorrect answers from other lines if different to correct answer
+
 
     valid, invalid = resource['valid'], resource['invalid']
     question = [{'text':'What is the outcome of the following code?'}]
@@ -1334,7 +1343,7 @@ def what_is_the_outcome_from_the_following_code(resource):
     
     # Choose between one incorrect vs all correct
     if randint(0,3) in [0,1,2]:#one incorrect
-        #print('incorrect')
+        print('incorrect')
         invalid_index = randint(0, len(valid)-1) # Choose index of incorrect line   
         choice_index = randint(0, len(valid[invalid_index])-1)
         #print(invalid_index+1, choice_index+1)
@@ -1371,7 +1380,7 @@ def what_is_the_outcome_from_the_following_code(resource):
                     code+= utl.pick_one_many_times(choice(invalid[i])[0]) + '\n'
                 
     else:#all correct
-        #print('all correct')
+        print('all correct')
         valid_code_index = randint(0, len(valid[-1])-1)
         items.append({'item':valid[-1][valid_code_index][1], 'indicator':'correct', 'id':f'item{id}'})#use a correct answer
         id+=1#increment id

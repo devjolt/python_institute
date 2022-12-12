@@ -10,7 +10,7 @@ Which of the following are not a SQLite3 method? (multi option)
 
 questions = {
 
-    'DBMS': {
+    'database_management_system': {
         'question':"Considering a 'DBSM', which of the following is PLACEHOLDER?",
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
@@ -48,7 +48,7 @@ questions = {
             ('it is usually incompatible with other DBMS systems'),
         )
     },
-    'Structured Query Language': {
+    'structured_query_language': {
         'question':"Which of the following is PLACEHOLDER?",
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
@@ -80,7 +80,7 @@ questions = {
             'SQL does not include a data manipulation language (DML)',
         )
     },
-    'Database entities': {
+    'database_entities': {
         'question':"Which of the following is PLACEHOLDER?",
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
@@ -114,7 +114,7 @@ questions = {
             'field data type is never specified'
         )
     },
-    'Popular databases': {
+    'popular_databases': {
         'question':"Which of the following is PLACEHOLDER a relational database which uses SQL:",
         'positive':'',
         'negative':'not',
@@ -143,7 +143,7 @@ questions = {
             'TorSQL'
             )
         },
-    'About sqlite': {
+    'about_sqlite': {
         'question':"Which of the following is PLACEHOLDER:",
         'positive':'correct',
         'negative':'incorrect',
@@ -182,7 +182,7 @@ questions = {
             )
         },
 
-    'Sqlite with Python': {
+    'sqlite_with_python': {
         'question':"Which of the following could PLACEHOLDER be valid code:",
         'positive':'',
         'negative':'not',
@@ -226,7 +226,7 @@ questions = {
             )
         },
 
-    'Python sqlite': {
+    'sqlite_code': {
         'question_with_0':['Which comment would best fit the following code?','PLACEHOLDER'],
         'question_with_1':'When using SQLite3, which snippet will PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -246,7 +246,7 @@ questions = {
         ),
         'fillers': (),
     },
-    'SQL syntax': {
+    'sql_syntax': {
         'question':"Which of the following are PLACEHOLDER?",
         'positive':'correct',
         'negative':'incorrect',
@@ -280,7 +280,7 @@ questions = {
             )
         },
 
-    'SQL keywords': {
+    'sql_keywords': {
         'question':"Which of the following is PLACEHOLDER a valid SQL keyword with which to start a statement?",
         'positive':'',
         'negative':'not',
@@ -295,7 +295,7 @@ questions = {
         },
     'sql commands':sql_commands,
     
-    'SQL snippets': {
+    'sql_snippets': {
         'question_with_0':['Which comment would best fit the following code?','PLACEHOLDER'],
         'question_with_1':'Which snippet PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -335,7 +335,7 @@ questions = {
             )
     },
 
-    'SQLite3 methods and attributes': {
+    'sqlite3_methods_and_attributes': {
         'question_with_0':['Which comment would best fit the following code:','PLACEHOLDER'],
         'question_with_1':'Which snippet PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -354,7 +354,7 @@ questions = {
         'fillers': (),
     },
 
-    'SQLite and Python data types': {
+    'sqlite_python_data_types': {
         'question_with_0':['Which SQLITE data type is the equivalent of Python ', 'PLACEHOLDER'],
         'question_with_1':['Which Python datatype best matches the following SQLITE data type?','PLACEHOLDER'],
         'type':'make_items_question_from_pairs',
@@ -377,7 +377,7 @@ questions = {
 
 
     #################################################################
-    'csv modules':{
+    'csv_modules':{
         'question':"Which of the following is PLACEHOLDER a csv method?",
         'positive':'',
         'negative':'not',
@@ -399,7 +399,7 @@ questions = {
 
 
 #################################################################
-    'xml.etree.ElementTree code': {
+    'xml_etree_elementtree_code': {
         'question_with_0':['What comment best matches the following code:','PLACEHOLDER'],
         'question_with_1':'Which line of code is best described by PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -415,7 +415,7 @@ questions = {
         ),
         'fillers': (),
     },
-    'XML handling submodules':{
+    'xml_handling_submodules':{
         'question':"Which of the following is PLACEHOLDER a python module for handling XML?",
         'positive':'',
         'negative':'not',
@@ -441,7 +441,7 @@ questions = {
             '$xml.parsers.dommini',
             )
     },
-    'xml.etree.ElementTree methods':{
+    'elementtree_methods':{
         'question':"Which of the following is PLACEHOLDER a python xml.etree.ElementTree method?",
         'positive':'',
         'negative':'not',
@@ -478,7 +478,7 @@ questions = {
             )
         },
 
-    'xml.etree.ElementTree method returns': {
+    'elementtree_method_returns': {
         'question_with_0':['What is the function of the xml.etree.ElementTree method','PLACEHOLDER'],
         'question_with_1':'Which one of the following xml.etree.ElementTree methods PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -501,7 +501,7 @@ questions = {
         ),
         'fillers': (),
     },
-    'xml.etree.ElementTree factory function returns': {
+    'elementtree_factory_function_returns': {
         'question_with_0':['What is the function of the xml.etree.ElementTree functions','PLACEHOLDER'],
         'question_with_1':'Which one of the following xml.etree.ElementTree functions PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -525,7 +525,7 @@ questions = {
         )
     },
     
-    'xml.etree.ElementTree objects': {
+    'xml_objects': {
         'question_with_0':['Which one of the following exist in this xml.etree.ElementTree object:','PLACEHOLDER'],
         'question_with_1':'Which xml.etree.ElementTree object contains PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -540,7 +540,7 @@ questions = {
         'fillers': (
         )
     },
-    'XML statements':{
+    'xml_statements':{
         'question':"Considering XML, which of the following are PLACEHOLDER correct?",
         'positive':'',
         'negative':'not',
@@ -579,7 +579,7 @@ questions = {
         },
 
 ################################
-    'logging true and false':{
+    'logging_true_false':{
         'question':"Considering logging, which of the following is PLACEHOLDER true?",
         'positive':'',
         'negative':'not',
@@ -610,7 +610,7 @@ questions = {
     },
 
 
-    'Log levels': {
+    'log_levels': {
         'question_with_0':['Which one of the following log values corresponds to PLACEHOLDER?'],
         'question_with_1':'Which one of the following log level names corresponds to the value PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -627,7 +627,7 @@ questions = {
         )
     },
 
-    'logging true and false':{
+    'more_logging_true_false':{
         'question':"Which of these are PLACEHOLDER examples of default log formatting?",
         'positive':'',
         'negative':'not',
@@ -657,7 +657,7 @@ questions = {
 #what do xml, ini... files have
 
 ##############################
-    'INI files key value entries':{
+    'ini_files_key_value_entries':{
         'question':"Which of the following are PLACEHOLDER used to separate key/value entries in INI files?",
         'positive':'',
         'negative':'not',
@@ -693,7 +693,7 @@ questions = {
             )
         },
     
-    'INI file syntax': {
+    'ini_syntax': {
         'question_with_0':['Which one of the following are used to PLACEHOLDER in INI files?'],
         'question_with_1':'In INI files, what does the following do: PLACEHOLDER',
         'type':'make_items_question_from_pairs',
@@ -708,7 +708,7 @@ questions = {
         'fillers': (
         )
     },
-    'configparser code': {
+    'configparser_code': {
         'question_with_0':['What comment best matches the following code:','PLACEHOLDER'],
         'question_with_1':'Which line of code is best described by PLACEHOLDER?',
         'type':'make_items_question_from_pairs',
@@ -730,9 +730,8 @@ questions = {
             (f"$config[{choice(['DEFAULT', 'MAIN', 'WINDOWS', 'MAC', 'UBUNTU', 'PYTHON'])}]", ('$create elements in a config dictionary'))
         ),
     },
-    'configparser find the line':configparser_find_the_line,
-    'configparser outcome':configparser_outcome,
-
+    'configparser_find_the_line':configparser_find_the_line,
+    'configparser_outcome':configparser_outcome,
 }
 
 

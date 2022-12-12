@@ -30,6 +30,7 @@ pcpp1_patterns = [
     path('3/', RandomModuleView.as_view(modules = (p13,)), name = 'GUI'),
     path('4/', RandomModuleView.as_view(modules = (p14,)), name = 'REST'),
     path('5/', RandomModuleView.as_view(modules = (p15,)), name = 'Files'),
+    path('<str:module_str>/<str:question>/', specific_question_view, name = 'Specific'),
 ]
 
 pcpp2_patterns = [

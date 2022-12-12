@@ -1,4 +1,5 @@
 import inspect
+import logging
 import os
 from pathlib import Path
 import pkgutil
@@ -6,6 +7,7 @@ import platform
 from random import randint, shuffle, choice
 import re
 import time
+import traceback
 
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
@@ -18,6 +20,8 @@ from .pcpp1_modules import p11, p12, p13, p14, p15
 from .utilities import utilities as utl
 import question_logic as ql # doesn't exist yet
 from question_logic.all import * # doesn't exist yet
+
+logging.basicConfig(filename=Path('question.log'), encoding='utf-8', level=logging.ERROR)
 
 def populate_question_logic_dict()->dict:
     """ Used by generate_template_question_and_items(module, key)
@@ -38,7 +42,7 @@ def populate_question_logic_dict()->dict:
         if file_name not in ['all']:
             #print(file_name)
             exec(f"question_logic_dict['{file_name}']={file_name}.logic")
-    print(question_logic_dict)
+    #print(question_logic_dict)
     return question_logic_dict
 
 def generate_template_question_and_items(module:'object containing questions dict', key:str)->'template_question, items':
@@ -47,31 +51,40 @@ def generate_template_question_and_items(module:'object containing questions dic
     Uses populate_question_logic_dict() 
     to return template_question and item used in question templates
     """
+    resource_type = 'unknown'
+    try:
+        if type(module.questions[key]) == dict:
+            question_dict = module.questions[key] #get the dict
+            if type(question_dict['type'])==str: # If resource type is just a string, there is only one.
+                resource_type=question_dict['type']
+            else: # resource type is a list/tuple 
+                resource_type=choice(question_dict['type'])# and needs to be selected 
+            print('resource_type:',resource_type)
+            
+            question_logic_dict = populate_question_logic_dict() # line 24ish in this file
+            
+            template_question, items = question_logic_dict[resource_type](question_dict)
+
+        else:
+            # Otherwise, we'd better assume we're using a set of unique question logic and try to use that.
+            print('logic type question')# Self contained generating its own question and items.
+            resource_type = 'logic'
+            template_question, items = module.questions[key]()
+
+        shuffle(items) # item order needs to be randomised
+        return template_question, items 
+    except Exception as e:
+        slashes = '\\\\' if platform.system() == 'Windows' else '/'          
+        error_str = f"ERROR with {str(module).split(slashes)[-1][:-5]} {key} ({resource_type} question): {e}"
+        logging.error(error_str)
+        logging.error(e)
+        return None, None
     
-    if type(module.questions[key]) == dict:
-        question_dict = module.questions[key] #get the dict
-        if type(question_dict['type'])==str: # If resource type is just a string, there is only one.
-            resource_type=question_dict['type']
-        else: # resource type is a list/tuple 
-            resource_type=choice(question_dict['type'])# and needs to be selected 
-        print('resource_type:',resource_type)
-        
-        question_logic_dict = populate_question_logic_dict() # line 24ish in this file
-        
-        template_question, items = question_logic_dict[resource_type](question_dict)
-
-    else:
-        # Otherwise, we'd better assume we're using a set of unique question logic and try to use that.
-        print('logic type question')# Self contained generating its own question and items.
-        template_question, items = module.questions[key]()
-    shuffle(items) # item order needs to be randomised
-    return template_question, items 
-
 module_object_to_name_dict = {
     p11:'OOP', 
     p12:'Networking?', 
     p13:'GUIs', 
-    p14:'PEP?',
+    p14:'PEP',
     p15:'Files'
 }
 
@@ -81,7 +94,6 @@ class HomeView(TemplateView):
 
 class PCEPView(TemplateView):
     template_name='python_institute/pcep.html'
-
 
 class PCAPView(TemplateView):
     template_name='python_institute/pcap.html'
@@ -100,24 +112,27 @@ class RandomModuleView(TemplateView):
         start = time.time() # Timing how long all this takes. We'll stop this timer later
         context = super().get_context_data(**kwargs) # make a context object to mess with.
         # 'modules' is a tuple containing module names passed into the view in urls.py. And we're picking one of them. 
-        module = choice(self.modules)
-        # Each module contains a dictionary called questions and we're picking one of the questions in that dictionary. 
-        key = choice(tuple(module.questions.keys()))#from module, get key
         
-        slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
-        module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
-        
-        print(str(module)) # the only way we know what the module is
-        print('module_str',module_str) # just checking we have the module code too
-        print('key:',key) # and seeing what the key is
+        template_question = None
+        while template_question is None:
+            module = choice(self.modules)
+            # Each module contains a dictionary called questions and we're picking one of the questions in that dictionary. 
+            key = choice(tuple(module.questions.keys()))#from module, get key
+            
+            slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
+            module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
+            
+            print(str(module)) # the only way we know what the module is
+            print('module_str',module_str) # just checking we have the module code too
+            print('key:',key) # and seeing what the key is
 
-        question_type = 'multi-choice' # always multi choice at the moment? Not sure though 10/09/22
+            question_type = 'multi-choice' # always multi choice at the moment? Not sure though 10/09/22
 
-        # v Uncomment to use a specific question in a specific module:
-        #module = _1
-        #key = 'test_question'
-        
-        template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
+            # v Uncomment to use a specific question in a specific module:
+            #module = _1
+            #key = 'test_question'
+            
+            template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
         
         # Put question list and items in context dictionary.
         context['question'], context['items'] = template_question, items
@@ -178,6 +193,49 @@ class RandomModuleView(TemplateView):
         return context
 
         """
+
+def specific_question_view(request, module_str, question):
+    
+    module_str_to_object_dict = {
+        'p11':p11, 
+        'p12':p12, 
+        'p13':p13, 
+        'p14':p14,
+        'p15':p15
+    }
+
+    start = time.time() # Timing how long all this takes. We'll stop this timer later
+    
+    template_question = None 
+    while template_question is None: # try to generate to make a question
+        module = module_str_to_object_dict[module_str]
+        # Each module contains a dictionary called questions and we're picking one of the questions in that dictionary. 
+        key = question#from module, get key
+    
+        slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
+        module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
+        
+        print('actual module:',str(module)) # the only way we know what the module is
+        print('module_str',module_str) # just checking we have the module code too
+        print('key:',key) # and seeing what the key is
+
+        question_type = 'multi-choice' # always multi choice at the moment? Not sure though 10/09/22
+
+        template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
+
+    # Put question list and items in context dictionary.
+    context={}
+    context['question'], context['items'] = template_question, items
+    context['question_type'] = question_type # Question type may tell the template how to handle the question if needed.
+    context['question_description'] = key # Question key, acting as a question description
+    context['cert_name'] = re.sub('[0-9]+', '', module_str)# needed in case we switch to specific question
+    context['module_name'] = module_object_to_name_dict[module]# question module name needed as above
+    context['title'] = 'AWS Cloud Practitioner Practice'# may change later...
+    context['question_description_link'] = 'https://duckduckgo.com/?q=aws+' + key.replace('_', '+') # used to link if needed
+    # We set this timer at the top so let's stop it now and see how long all that took!
+    print('time taken:', time.time()-start)#interesting to know...
+    return render(request, 'python_institute/multichoice.html', context)
+
 
 def test_question(request):
     module = e_files_os
