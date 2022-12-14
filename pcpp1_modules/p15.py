@@ -720,7 +720,7 @@ questions = {
             ("$config.sections()", ('$return a list of sections')),
             (f"""$config[{choice(['"DEFAULT"', '"MAIN"', '"WINDOWS"', '"MAC"', '"UBUNTU"', '"PYTHON"'])}]""", ('$create a section in a config dictionary')),
             (f"config.read('config.ini')", ('$read an ini file'))
-        
+  
         ),
         'fillers': (
             (f"config.readFile('config.ini')", ('$returns the comments in an ini file', '$returns the comments in an ini file by section', '$returns only one section of an ini file')),
@@ -730,8 +730,37 @@ questions = {
             (f"$config[{choice(['DEFAULT', 'MAIN', 'WINDOWS', 'MAC', 'UBUNTU', 'PYTHON'])}]", ('$create elements in a config dictionary'))
         ),
     },
-    'configparser_find_the_line':configparser_find_the_line,
-    'configparser_outcome':configparser_outcome,
+    
+    'logging_block_advanced':{
+        'type':['code_block_outcome','code_block_error_lines'],
+        'valid':(
+            (
+                (('import configparser',),'# import a module from the python library'),
+                (('config = configparser.ConfigParser()',),'# create a configparser object'),
+                ((f"config.read('filename.ini')",),'# read a file into a configparser object'),
+                (("print('Sections:', config.sections())",),'# print the section titles of an ini file')
+            ),
+        ),
+        'invalid':(
+            (
+                ((f"import {choice(['config','conf','parseconfig','configparse'])}",),'ModuleNotFoundError'),
+                (('import',),'SyntaxError'),
+                ((f"from configparser import {choice(['config','conf','parseconfig','parse'])}",),'ImportError'),
+            ),(
+                ((f"config = {choice(['config','conf','parseconfig','configparse'])}.ConfigParser()",'config == configparser.ConfigParser()','configparser.ConfigParser()'),'NameError'),
+                ((f"config = configparser.{choice(['Config','Conf','Parseconfig','Configparse','configparser'])}()",),'AttributeError'),
+            ),(
+                (("",),'# print an empty list'),
+                ((f"config.read('filename.ini'",f"config.read('filename.ini)",f"config.read(filename.ini')"),'SyntaxError'),
+                ((f"config.read(filename.ini)", f'read("filename.ini")'),'NameError'),
+                ((f"config.{choice(['get','readfile','parse','readall'])}('filename.ini')",),'AttributeError'),
+            ),(
+                (("config.sections","config.sections()",),'No output'),
+                (("print(sections())",'sections()', 'Config.sections', "print('Config.sections()')"),'NameError'),
+                (("print(config.sections)",),'# print an object id and memory address'),
+            ),
+        )
+    },
 }
 
 
@@ -785,3 +814,4 @@ Syntax
     update
     delete
 '''
+

@@ -494,6 +494,43 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             f'hex({randint(1, 100)})',        
         ),
     },
+
+    'sockets_with_python':{
+        'type':['code_block_outcome','code_block_error_lines'],
+        'valid':(
+            (
+                (('import socket',),'# import a module from the python library'),
+                (('server_addr = input("What server do you want to connect to? ")',),'# get users desired server address'),
+                ((f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)",),'# create socket object'),
+                (("sock.connect((server_addr, 80))",),'# connect socket to specified address using HTTP'),
+                (('sock.send(b"GET / 4HTTP/1.1\r\nHost: " +"',),'# make HTTP request'),
+                (('\t\t\tbytes(server_addr, "utf8") +',),'# specify encoding'),
+                (('\t\t\tb"\r\nConnection: close\r\n\r\n")',),'# terminate http message'),
+                ((f'reply = sock.recv({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})',),'# get returned chunk of data'),
+                ((f'sock.shutdown(socket.SHUT_{choice(["RDWR","RD","WR"])}',),'# inform server that communication has ended'),
+                (('sock.close()',),'# explicitly close connection'),
+                (('print(repr(reply))',),'# output reply'),
+            ),
+        ),
+        'invalid':(
+            (
+                ((f"import {choice(['Socket','sock','connection','socketConnect'])}",),'ModuleNotFoundError'),
+                (('import',),'SyntaxError'),
+                ((f"from socket import {choice(['Socket','sock','connection','socketConnect'])}",),'ImportError'),
+            ),(
+                ((f'{choice(["server_ad", "addr", "server_addr"])} = question("What server do you want to connect to? ")','config == configparser.ConfigParser()','configparser.ConfigParser()'),'NameError'),
+            ),(
+                (("",),'# print an empty list'),
+                ((f"config.read('filename.ini'",f"config.read('filename.ini)",f"config.read(filename.ini')"),'SyntaxError'),
+                ((f"config.read(filename.ini)", f'read("filename.ini")'),'NameError'),
+                ((f"config.{choice(['get','readfile','parse','readall'])}('filename.ini')",),'AttributeError'),
+            ),(
+                (("config.sections","config.sections()",),'No output'),
+                (("print(sections())",'sections()', 'Config.sections', "print('Config.sections()')"),'NameError'),
+                (("print(config.sections)",),'# print an object id and memory address'),
+            ),
+        )
+    },
     # requests methods
     # code outcomes
     # return request object meanings #https://pypi.org/project/requests/

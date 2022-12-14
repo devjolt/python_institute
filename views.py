@@ -52,34 +52,37 @@ def generate_template_question_and_items(module:'object containing questions dic
     to return template_question and item used in question templates
     """
     resource_type = 'unknown'
-    try:
-        if type(module.questions[key]) == dict:
-            question_dict = module.questions[key] #get the dict
-            if type(question_dict['type'])==str: # If resource type is just a string, there is only one.
-                resource_type=question_dict['type']
-            else: # resource type is a list/tuple 
-                resource_type=choice(question_dict['type'])# and needs to be selected 
-            print('resource_type:',resource_type)
-            
-            question_logic_dict = populate_question_logic_dict() # line 24ish in this file
-            
-            template_question, items = question_logic_dict[resource_type](question_dict)
+    #try:
+    if type(module.questions[key]) == dict:
+        question_dict = module.questions[key] #get the dict
+        if type(question_dict['type'])==str: # If resource type is just a string, there is only one.
+            resource_type=question_dict['type']
+        else: # resource type is a list/tuple 
+            resource_type=choice(question_dict['type'])# and needs to be selected 
+        print('resource_type:',resource_type)
+        
+        question_logic_dict = populate_question_logic_dict() # line 24ish in this file
+        
+        template_question, items = question_logic_dict[resource_type](question_dict)
 
-        else:
-            # Otherwise, we'd better assume we're using a set of unique question logic and try to use that.
-            print('logic type question')# Self contained generating its own question and items.
-            resource_type = 'logic'
-            template_question, items = module.questions[key]()
+    else:
+        # Otherwise, we'd better assume we're using a set of unique question logic and try to use that.
+        print('logic type question')# Self contained generating its own question and items.
+        resource_type = 'logic'
+        template_question, items = module.questions[key]()
 
-        shuffle(items) # item order needs to be randomised
-        return template_question, items 
+    shuffle(items) # item order needs to be randomised
+    return template_question, items 
+    """
     except Exception as e:
         slashes = '\\\\' if platform.system() == 'Windows' else '/'          
-        error_str = f"ERROR with {str(module).split(slashes)[-1][:-5]} {key} ({resource_type} question): {e}"
+        error_str = f"ERROR with {str(module).split(slashes)[-1][:-5]} {key} ({resource_type} question): {e} {print(traceback.format_exc())}"
         logging.error(error_str)
         logging.error(e)
+        
         return None, None
-    
+    """
+
 module_object_to_name_dict = {
     p11:'OOP', 
     p12:'Networking?', 
@@ -206,22 +209,21 @@ def specific_question_view(request, module_str, question):
 
     start = time.time() # Timing how long all this takes. We'll stop this timer later
     
-    template_question = None 
-    while template_question is None: # try to generate to make a question
-        module = module_str_to_object_dict[module_str]
-        # Each module contains a dictionary called questions and we're picking one of the questions in that dictionary. 
-        key = question#from module, get key
+    module = module_str_to_object_dict[module_str]
+
+    # Each module contains a dictionary called questions and we're picking one of the questions in that dictionary. 
+    key = question#from module, get key
+
+    slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
+    module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
     
-        slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
-        module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
-        
-        print('actual module:',str(module)) # the only way we know what the module is
-        print('module_str',module_str) # just checking we have the module code too
-        print('key:',key) # and seeing what the key is
+    print('actual module:',str(module)) # the only way we know what the module is
+    print('module_str',module_str) # just checking we have the module code too
+    print('key:',key) # and seeing what the key is
 
-        question_type = 'multi-choice' # always multi choice at the moment? Not sure though 10/09/22
+    question_type = 'multi-choice' # always multi choice at the moment? Not sure though 10/09/22
 
-        template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
+    template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
 
     # Put question list and items in context dictionary.
     context={}

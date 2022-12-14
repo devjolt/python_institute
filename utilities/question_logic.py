@@ -975,7 +975,370 @@ def make_error_line_items_code(valid, invalid):
         for line in valid:
             code = add_code_line(line, code)
     return items, code
-  
+
+
+def make_outcome_items_code_advanced(resource):
+    """one data structure idea considered, but not worth the hastle
+
+    # valid is a tuple containing tuples containing VALID lines of code, which would run without error to produce a desired outcome
+    valid = (
+        (
+            (('line1a','line1b')'$comment for line'),# each line will be a valid line leading to the outcome described in comment
+            (('line2a','line2b')'$comment for line'),# each line's comment assumes that the previous line of code has successfully run
+            (('line3',)'$outcome of the whole block of code'), # final line's comment assumes the entire block runs successfully
+        ),(
+            (('altline1a','altline1b')'$altcomment for line'),
+            (('altline2a','altline2b')'$altcomment for line'),
+            (('altline3',)'$altoutcome of the whole block of code'),
+        )
+    )
+    # note the commas in tuples with only one item, otherwise they're strings and this screws EVERYTHING up
+    ONE of the above will be picked to be the valid code to be used in the question
+
+    # invalid is also a tuple of tuples. Each tuple contains alternative outcome lines for ONE of the valid lines
+    invalid = (
+        (
+            (('badline1a','badline1b')'$some error'),# each comment must describe behaviour for all lines in preceding tuple (in this case badline1a and badline1b both produce the same error)
+            (('badline1c','badline1d')'$unexpected behaviour'),# assume that the rest of the code is normal when writing the comments
+            (('badline1e',)'$another error'), # each comment describes the outcome of the code IF THIS WERE THE ONLY LINE CHANGED 
+        ),
+        (
+            (('badline2a','badline2b')'$some error'),# 
+            (('badline2c','badline2d')'$unexpected behaviour'),# 
+            (('badline2e',)'$another error'), # 
+        ),
+        (
+            (('badline3a','badline3b')'$some error'),# 
+        ),
+    )
+    # in invalid, one tuple exists for each correct line of code. Each tuple contains alternatives for only one line
+
+    different behaviours:
+    BASED ON DISTINCT VALID AND INVALID
+    1. select outcome for entire block of code
+    2. select outcome for partial block of code
+    3. select number of line of code which will cause x
+    4. select which snippet of code will...
+    
+    no matter what:
+    # select which valid to use
+    # compile all comments into one structure (list(set))
+    # select whether question will be valid or invalid
+
+    handle 1 and 2 together:
+    # select the number of lines to use for question
+    # rebuild valid and invalid based on number of lines to use
+    
+    # if valid, correct answer will be comment from last line of valid code, 
+    # incorrect chosen randomly from all other comments
+    # code simply valid code
+
+    # if invalid, select the index number of a line of code and get the comment as correct answer
+    # incorrect chosen randomly from all other comments
+    # code is valid code, with incorrect line inserted in
+    """
+    
+    valid = resource['valid']
+    invalid = resource['invalid']
+    #check that length of valid and invalid are the same
+    if len(valid[0]) != len(invalid):
+        print(f'Valid len ({len(valid[0])}) != invalid len ({len(invalid)})')
+        return None
+    
+    selected_valid = choice(valid) # select which valid to use
+
+    # compile all comments into one structure (list(set))
+    comments = []
+    for valid_code in valid:
+        comments+= [comment[1] for comment in valid]
+    
+    for line in invalid:
+        comments+= [comment[1] for comment in line]
+
+    comments = list(set(comments))
+
+    code_valid = True if randint(0,3) == 0 else False #3/4 chance of having question with one incorrect line
+
+    # handle 1 and 2 together
+    lines_to_use = randint(1, len(selected_valid)-1) # select the number of lines to use for question
+    selected_valid = selected_valid[:lines_to_use] # rebuild valid and invalid based on number of lines to use
+    invalid = invalid[:lines_to_use]
+
+    items, id, used = [], 1, []
+    code = ''''''
+    
+    if code_valid is False:
+        invalid_index = randint(0, len(valid)-1)#choose index of incorrect line   
+        correct_invalid_items = invalid[invalid_index]#get all entries at that index
+        correct_invalid_line, correct_invalid_outcome = lf.pick_one(correct_invalid_items)#get one entry from that
+        
+        correct_invalid_line = lf.pick_one(correct_invalid_line) # pick one line
+        items, id, used = add_possible_code_item(correct_invalid_outcome, 'correct', items, id, used)
+        id+=1#increment id
+        while len(used)!=4:    
+            attempt= lf.pick_one(comments)#pick a comment
+            if attempt not in used:
+                items, id, used, = add_possible_code_item(attempt, 'incorrect', items, id, used)
+
+        for i in range(len(selected_valid)):
+            if i == invalid_index:
+                code = add_code_line(correct_invalid_line, code)
+            else:
+                valid_line = selected_valid[i]#first item in valid[i] tuple
+                code = add_code_line(valid_line, code)
+
+    else:#all correct
+        #print('all correct')
+        items.append({'item':selected_valid[-1][1], 'indicator':'correct', 'id':f'item{id}'})#use a correct answer
+        used.append(selected_valid[-1][1])
+        id+=1#increment id
+        #select three random unique incorrect answers
+        while len(used)!=4:
+            attempt= lf.pick_one(comments)#pick a comment
+            if attempt not in used:
+                items, id, used, = add_possible_code_item(attempt, 'incorrect', items, id, used)
+
+        for line in selected_valid[0]:
+            code+= line + '\n'
+    question=[
+        {'text':'What will be the outcome when attempting to run the following code snippet:', 'code':code}
+    ]
+    
+    return question, items
+
+def make_error_line_items_code_advanced(resource):
+    """one data structure idea considered, but not worth the hastle
+
+    # valid is a tuple containing tuples containing VALID lines of code, which would run without error to produce a desired outcome
+    valid = (
+        (
+            (('line1a','line1b')'$comment for line'),# each line will be a valid line leading to the outcome described in comment
+            (('line2a','line2b')'$comment for line'),# each line's comment assumes that the previous line of code has successfully run
+            (('line3',)'$outcome of the whole block of code'), # final line's comment assumes the entire block runs successfully
+        ),(
+            (('altline1a','altline1b')'$altcomment for line'),
+            (('altline2a','altline2b')'$altcomment for line'),
+            (('altline3',)'$altoutcome of the whole block of code'),
+        )
+    )
+    # note the commas in tuples with only one item, otherwise they're strings and this screws EVERYTHING up
+    ONE of the above will be picked to be the valid code to be used in the question
+
+    # invalid is also a tuple of tuples. Each tuple contains alternative outcome lines for ONE of the valid lines
+    invalid = (
+        (
+            (('badline1a','badline1b')'$some error'),# each comment must describe behaviour for all lines in preceding tuple (in this case badline1a and badline1b both produce the same error)
+            (('badline1c','badline1d')'$unexpected behaviour'),# assume that the rest of the code is normal when writing the comments
+            (('badline1e',)'$another error'), # each comment describes the outcome of the code IF THIS WERE THE ONLY LINE CHANGED 
+        ),
+        (
+            (('badline2a','badline2b')'$some error'),# 
+            (('badline2c','badline2d')'$unexpected behaviour'),# 
+            (('badline2e',)'$another error'), # 
+        ),
+        (
+            (('badline3a','badline3b')'$some error'),# 
+        ),
+    )
+    # in invalid, one tuple exists for each correct line of code. Each tuple contains alternatives for only one line
+
+    3. select number of line of code which will cause x
+
+    no matter what:
+    # select which valid to use
+    # compile all comments into one structure (list(set))
+    # select whether question will be valid or invalid
+
+    handle 3
+    # if valid, correct answer will be none code completes successfully
+    # incorrect answers will be random numbers from range of code length
+    # code will be valid code
+
+    #if invalid, corret answer will be index number selected from range of code length
+    # incorrect answers will include code completes successfully plus two other unused index numbers
+    # code will be valid code, with a corresponding incorrect line inserted in
+    #NOTE: requires at least three lines of code...
+
+    """
+    valid = resource['valid']
+    invalid = resource['invalid']
+    if len(valid[0]) != len(invalid):
+        print(f'Valid len ({len(valid[0])}) != invalid len ({len(invalid)})')
+        return None
+    
+    selected_valid = choice(valid) # select which valid to use
+
+    # compile all comments into one structure (list(set))
+    comments = []
+    for valid_code in valid:
+        comments+= [comment[1] for comment in valid]
+    
+    for line in invalid:
+        comments+= [comment[1] for comment in line]
+
+    comments = list(set(comments))
+
+    code_valid = True if randint(0,3) == 0 else False #3/4 chance of having question with one incorrect line
+
+    # handle 1 and 2 together
+    try:
+        lines_to_use = randint(3, len(selected_valid)-1) # select the number of lines to use for question
+    except:
+        lines_to_use = 3
+
+    selected_valid = selected_valid[:lines_to_use] # rebuild valid and invalid based on number of lines to use
+    invalid = invalid[:lines_to_use]
+
+    items, id, used = [], 1, []
+    code = ''''''
+    
+    if code_valid is False:#the code will fail...
+        #print('Code will fail')
+        #pick which line will cause failure
+        error_line = randint(0, len(valid)-1)
+        items.append({'item':error_line+1, 'indicator':'correct', 'id':f'item{id}'})
+        id+=1
+        #pick three numbers which are not the same as error line
+        if randint(0,2) in [0,1]:#chance for statement that the code will run without error
+            used.append('No failure')
+            items.append({'item':'The code will execute successfully', 'indicator':'incorrect', 'id':f'item{id}'})
+            id+=1
+        nums = [i for i in range(len(valid))]
+        used = [str(error_line+1)]
+        while len(items) != 4:
+            num = str(lf.pick_one(nums) +1)
+            #print(num, used)
+            if num not in used:
+                items, id, used = add_possible_code_item(num, 'incorrect', items, id, used)
+        
+        #build a string with all but failing line correct
+        for i in range(len(valid)):
+            if i == error_line:
+                code+= lf.pick_one_from_nested(invalid[i][0]) + '\n'
+            else: 
+                code+= lf.pick_one_from_nested(selected_valid[i][0]) + '\n'
+    else:#the code will actually not fail
+        #print('Code will NOT fail WILL RUN')
+        items.append({'item':'The code will execute successfully', 'indicator':'correct', 'id':f'item{id}'})
+        id+=1
+        nums = [i for i in range(len(selected_valid))]
+        shuffle(nums)    
+        for num in nums[:3]:
+            items, id, used  = add_item(num+1, 'incorrect', items, id, used)
+        for line in selected_valid:
+            code = add_code_line(choice(line[0]), code)
+    question=[
+        {'text':'Which line of code will cause the following snippet to fail:', 'code':code}
+    ]
+    return question, items
+
+def code_and_comment_advanced(valid, invalid):
+    """
+    # valid is a tuple containing tuples containing VALID lines of code, which would run without error to produce a desired outcome
+    valid = (
+        (
+            (('line1a','line1b')'$comment for line'),# each line will be a valid line leading to the outcome described in comment
+            (('line2a','line2b')'$comment for line'),# each line's comment assumes that the previous line of code has successfully run
+            (('line3',)'$outcome of the whole block of code'), # final line's comment assumes the entire block runs successfully
+        ),(
+            (('altline1a','altline1b')'$altcomment for line'),
+            (('altline2a','altline2b')'$altcomment for line'),
+            (('altline3',)'$altoutcome of the whole block of code'),
+        )
+    )
+    # note the commas in tuples with only one item, otherwise they're strings and this screws EVERYTHING up
+    ONE of the above will be picked to be the valid code to be used in the question
+
+    # invalid is also a tuple of tuples. Each tuple contains alternative outcome lines for ONE of the valid lines
+    invalid = (
+        (
+            (('badline1a','badline1b')'$some error'),# each comment must describe behaviour for all lines in preceding tuple (in this case badline1a and badline1b both produce the same error)
+            (('badline1c','badline1d')'$unexpected behaviour'),# assume that the rest of the code is normal when writing the comments
+            (('badline1e',)'$another error'), # each comment describes the outcome of the code IF THIS WERE THE ONLY LINE CHANGED 
+        ),
+        (
+            (('badline2a','badline2b')'$some error'),# 
+            (('badline2c','badline2d')'$unexpected behaviour'),# 
+            (('badline2e',)'$another error'), # 
+        ),
+        (
+            (('badline3a','badline3b')'$some error'),# 
+        ),
+    )
+    # match code with comment
+    # make a dict with comments as keys and values list of lines
+    """
+    pairs_dict = {}
+    for block in valid:
+        for line_tuple in block:
+            if line_tuple[1] not in pairs:
+                pairs_dict[line_tuple[1]] = []
+            for line in line_tuple[0]:
+                pairs_dict[line_tuple[1]].append(line)
+    
+    for line_group in invalid:
+        for line_tuple in line_group:
+            if line_tuple[1] not in pairs:
+                pairs_dict[line_tuple[1]] = []
+            for line in line_tuple[0]:
+                pairs_dict[line_tuple[1]].append(line)
+
+    used, id, items = [], 1, []
+    
+    if randint(0,1):
+        pass
+        # comment in question
+        # Which code snippet best suits the following comment:
+        # one comment and correct snippet, plus three incorrect
+        
+    else:
+        pass
+        # line of code in question
+        # Which code comment best suits the following snippet:
+        # one snippet and correct comment, plus three incorrect
+
+    
+    return question, items    
+
+def valid_or_invalid_code_advanced(valid, invalid):
+    """
+    # valid is a tuple containing tuples containing VALID lines of code, which would run without error to produce a desired outcome
+    valid = (
+        (
+            (('line1a','line1b')'$comment for line'),# each line will be a valid line leading to the outcome described in comment
+            (('line2a','line2b')'$comment for line'),# each line's comment assumes that the previous line of code has successfully run
+            (('line3',)'$outcome of the whole block of code'), # final line's comment assumes the entire block runs successfully
+        ),(
+            (('altline1a','altline1b')'$altcomment for line'),
+            (('altline2a','altline2b')'$altcomment for line'),
+            (('altline3',)'$altoutcome of the whole block of code'),
+        )
+    )
+    # note the commas in tuples with only one item, otherwise they're strings and this screws EVERYTHING up
+    ONE of the above will be picked to be the valid code to be used in the question
+
+    # invalid is also a tuple of tuples. Each tuple contains alternative outcome lines for ONE of the valid lines
+    invalid = (
+        (
+            (('badline1a','badline1b')'$some error'),# each comment must describe behaviour for all lines in preceding tuple (in this case badline1a and badline1b both produce the same error)
+            (('badline1c','badline1d')'$unexpected behaviour'),# assume that the rest of the code is normal when writing the comments
+            (('badline1e',)'$another error'), # each comment describes the outcome of the code IF THIS WERE THE ONLY LINE CHANGED 
+        ),
+        (
+            (('badline2a','badline2b')'$some error'),# 
+            (('badline2c','badline2d')'$unexpected behaviour'),# 
+            (('badline2e',)'$another error'), # 
+        ),
+        (
+            (('badline3a','badline3b')'$some error'),# 
+        ),
+    )
+    # valid and invalid code
+    # valid_code = for v in valid, for item in v = append(line for line in item[[0]])
+    # invalid = for lines in invalid: for line_collection in lines: for line in line_collection[0]:append(invalid_code)
+    """
+    pass
+
 ########### Classes dealing with code block questions. This all seems to work fine vvvvv
 class Question():
     id = 1
