@@ -734,8 +734,8 @@ questions = {
     'logging_block_advanced':{
         'type':[
             'code_block_question_line_answer_comment',
-            #'code_block_outcome',
-            #'code_block_error_lines',
+            'code_block_outcome',
+            'code_block_error_lines',
         ],
         'valid':(
             (

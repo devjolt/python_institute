@@ -424,7 +424,11 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
 
     
     'sockets_with_python':{
-        'type':['code_block_outcome','code_block_error_lines'],
+        'type':[
+            'code_block_question_line_answer_comment',
+            'code_block_outcome',
+            'code_block_error_lines',
+        ],
         'valid':(
             (
                 (('import socket',),'# import a module from the python library'),
@@ -617,7 +621,11 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
 
     
     'json_with_python':{
-        'type':['code_block_outcome','code_block_error_lines'],
+        'type':[
+            'code_block_question_line_answer_comment',
+            'code_block_outcome',
+            'code_block_error_lines',
+        ],
         'valid':(
             (
                 (('import socket',),'# import a module from the python library'),
@@ -675,7 +683,7 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         )
     },
 
-    
+
 
     # requests methods
     # code outcomes
