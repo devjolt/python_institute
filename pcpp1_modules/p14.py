@@ -422,6 +422,69 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     'fillers' :(),
     },
 
+    
+    'sockets_with_python':{
+        'type':['code_block_outcome','code_block_error_lines'],
+        'valid':(
+            (
+                (('import socket',),'# import a module from the python library'),
+                (('server_addr = input("What server do you want to connect to? ")',),'# get users desired server address'),
+                ((f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)",),'# create socket object'),
+                (("sock.connect((server_addr, 80))",),'# connect socket to specified address using HTTP'),
+                (('sock.send(b"GET / 4HTTP/1.1\\r\\nHost: " +',),'SyntaxError'),
+                (('\tbytes(server_addr, "utf8") +',),'SyntaxError'),
+                (('\tb"\\r\\nConnection: close\\r\\n\\r\\n")',),'# make HTTP request, specify encoding, terminate http message'),
+                ((f'reply = sock.recv({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})',),'# get returned chunk of data'),
+                ((f'sock.shutdown(socket.SHUT_{choice(["RDWR","RD","WR"])})',),'# inform server that communication has ended'),
+                (('sock.close()',),'# recieve an HTTP response and explicitly close connection'),
+                (('print(repr(reply))',),'#recieve an HTTP response and output reply'),
+            ),
+        ),
+        'invalid':(
+            (
+                ((f"import {choice(['Socket','sock','connection','socketConnect'])}",),'ModuleNotFoundError'),
+                (('import',),'SyntaxError'),
+                ((f"from socket import {choice(['Socket','sock','connection','socketConnect'])}",),'ImportError'),
+            ),(
+                ((f'{choice(["server_ad", "addr", "server_addr"])} = question("What server do you want to connect to? ")',),'NameError'),
+            ),(
+                ((f"sock = {choice(['Socket','sock','connection','socketConnect'])}.socket(socket.AF_INET, socket.SOCK_STREAM)",),'NameError'),
+                ((f"sock = socket.socket({choice(['Socket','sock','connection','socketConnect'])}.AF_INET, socket.SOCK_STREAM)",),'NameError'),
+                ((f"sock = socket.socket(socket.AF_INET, {choice(['Socket','sock','connection','socketConnect'])}.SOCK_STREAM)",),'NameError'),
+                ((f"sock = socket.{choice(['Socket','sock','connection','socketConnect'])}(socket.AF_INET, socket.SOCK_STREAM)"),'NameError'),
+                ((f"sock = socket.socket(socket.{choice(['AFNET','INET','AF','INTERNET','WEB_NET'])}, socket.SOCK_STREAM)",),'AttributeError'),
+                ((f"sock = socket.socket(socket.AF_INET, socket.{choice(['SOCK_NET','SOCKSTREAM','SOCKET_STREAM','STREAM'])})",),'AttributeError'),
+                ((f"sock socket.socket(socket.AF_INET, socket.SOCK_STREAM)",f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)",f"sock = socket.socket(socket.AF_INET socket.SOCK_STREAM)",f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM"),'SyntaxError'),
+            ),(
+                ((f"{choice(['Socket','sock','connection','socketConnect'])}.connect((server_addr, 80))",),'NameError'),
+                ((f"sock.{choice(['conn','join','connection','socketConnect'])}((server_addr, 80))",),'AttributeError'),
+                ((f"sock.connect({choice(['server','addr'])})",),'NameError'),
+                (("sock.connect(server_addr, 80))","sock.connect((server_addr, 80)","sock.connect((server_addr, 80",),'SyntaxError'),
+            ),(
+                ((f'''{choice(['Socket','sock','connection','socketConnect'])}.send(b"GET / 4HTTP/1.1\\r\\nHost: " +"''',),'NameError'),
+                ((f"sock.{choice(['transmit','socksend'])}(b'GET / 4HTTP/1.1\\r\\nHost: ' +'",),'AttributeError'),
+            ),(
+                (('\tbytes(server_addr, utf8") +','\\t\\t\\tbytes(server_addr, "utf8) +'),'SyntaxError'),
+                (('\tbytes(server_addr, utf8) +',),'NameError'),
+            ),(
+                (('\tb"\\r\\nConnection: close\\r\\n\\r\\n"','\\t\\t\\t\b\\r\\nConnection: close\\r\\n\\r\\n")'),'SyntaxError'),
+            ),(
+                ((f'reply = {choice(["Socket","sock","connection","socketConnect"])}.recv({choice(["chunk","bytes","data"])})',f'reply = sock.recv({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})'),'NameError'),
+                ((f'reply = sock.{choice(["recieve","get","connect", "socket"])}({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})',),'AttributeError'),
+            ),(
+                ((f'sock.shutdown(socket.SHUT_{choice(["READWRITE","READ","WRITE"])}',),'AttributeError'),
+            ),(
+                ((f"{choice(['Socket','sock','connection','socketConnect'])}.close()",),'NameError'),
+            ),(
+                (('print(reply)',),'#recieve an HTTP response and print socket reply object address'),
+                (('reply',),'# no output')
+            )
+        )
+    },
+
+
+
+
     'JSON introduction':{
     'type':'make_items_question_from_pairs',
     'course_code':'1.3.1',      
@@ -494,8 +557,66 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             f'hex({randint(1, 100)})',        
         ),
     },
+    'json_diagraphs':{
+        'type':'make_items_question_from_pairs',
+        'course_code':'1.3.1',      
+        'question_with_0':'In a JSON string, what is a PLACEHOLDER?',
+        'question_with_1':'',
+        'pairs':(
+            ('\\\\', '\\'),
+            ('\/', '/'), 
+            ('\\b', 'backspace'), 
+            ('\\f', 'form feed'), 
+            ('\\n', 'line feed'), 
+            ('\\', 'carriage return'), 
+            ('\\t', 'tabulation'),
+            (('\\uxxxx','\\Uxxxx',),'UNICODE codepoint') 
+        ),
+        'fillers' :(
+            (('\\h','\\z','\\a','\\p','\\l','\\c','\\v'), ('double space', 'paragraph', 'header')),
+        ),
+    },
+    'valid_json':{
+        'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
+        'positive':'',
+        'negative':'not',
+        'course_code':'1.3.1',      
+        'question':'Which of the following values is PLACEHOLDER valid JSON data?',
+        'correct':(
+            f'{randint(1, 100)}', 
+            f'"{choice(["some", "interesting", "more", "useful"])} text"',
+            f'{choice(["true", "false", "null"])}',
+            f'{choice(["[]", "{}"])}',
+            f'[{randint(1, 100)}, "{choice(["some", "interesting", "more", "useful"])} text"]',
+            f'["{choice(["some", "interesting", "more", "useful"])} text", {randint(1, 100)}]',
+            f'{{"{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)}}}',
+            f'{{{randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text"}}',
+            f'{{"{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)},"{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)}}}',
+            f'{{{randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text",{randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text"}}',
+        ),
+        'incorrect' :(
+            f'0x{randint(1, 100)}',
+            f'0o{randint(1, 100)}', 
+            f'0b{randint(1, 100)}',
+            f'{choice(["True", "False", "Null", "None"])}',
+            f"""'{choice(["some", "interesting", "more", "useful"])} text'""",
+            f'{choice(["some", "interesting", "more", "useful"])} text',
+            f'()',
+            f'''[{randint(1, 100)}, "{choice(["some", "interesting", "more", "useful"])} text"]''',
+            f'''['{choice(["some", "interesting", "more", "useful"])} text', {randint(1, 100)}]''',
+            f'''{{'{choice(["some", "interesting", "more", "useful"])} text':{randint(1, 100)}}}''',
+            f'''{{{randint(1, 100)}:'{choice(["some", "interesting", "more", "useful"])} text"'}}''',
+            f'''[{randint(1, 100)}, {choice(["some", "interesting", "more", "useful"])} text]''',
+            f'''[{choice(["some", "interesting", "more", "useful"])} text, {randint(1, 100)}]''',
+            f'''{{{choice(["some", "interesting", "more", "useful"])} text:{randint(1, 100)}}}''',
+            f'''{{{randint(1, 100)}:{choice(["some", "interesting", "more", "useful"])} text}}''',
+            f'{{"{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)} "{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)}}}',
+            f'{{{randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text" {randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text"}}',     
+        ),
+    },
 
-    'sockets_with_python':{
+    
+    'json_with_python':{
         'type':['code_block_outcome','code_block_error_lines'],
         'valid':(
             (
@@ -503,13 +624,13 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
                 (('server_addr = input("What server do you want to connect to? ")',),'# get users desired server address'),
                 ((f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)",),'# create socket object'),
                 (("sock.connect((server_addr, 80))",),'# connect socket to specified address using HTTP'),
-                (('sock.send(b"GET / 4HTTP/1.1\r\nHost: " +"',),'# make HTTP request'),
-                (('\t\t\tbytes(server_addr, "utf8") +',),'# specify encoding'),
-                (('\t\t\tb"\r\nConnection: close\r\n\r\n")',),'# terminate http message'),
+                (('sock.send(b"GET / 4HTTP/1.1\\r\\nHost: " +',),'SyntaxError'),
+                (('\tbytes(server_addr, "utf8") +',),'SyntaxError'),
+                (('\tb"\\r\\nConnection: close\\r\\n\\r\\n")',),'# make HTTP request, specify encoding, terminate http message'),
                 ((f'reply = sock.recv({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})',),'# get returned chunk of data'),
-                ((f'sock.shutdown(socket.SHUT_{choice(["RDWR","RD","WR"])}',),'# inform server that communication has ended'),
-                (('sock.close()',),'# explicitly close connection'),
-                (('print(repr(reply))',),'# output reply'),
+                ((f'sock.shutdown(socket.SHUT_{choice(["RDWR","RD","WR"])})',),'# inform server that communication has ended'),
+                (('sock.close()',),'# recieve an HTTP response and explicitly close connection'),
+                (('print(repr(reply))',),'#recieve an HTTP response and output reply'),
             ),
         ),
         'invalid':(
@@ -518,19 +639,44 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
                 (('import',),'SyntaxError'),
                 ((f"from socket import {choice(['Socket','sock','connection','socketConnect'])}",),'ImportError'),
             ),(
-                ((f'{choice(["server_ad", "addr", "server_addr"])} = question("What server do you want to connect to? ")','config == configparser.ConfigParser()','configparser.ConfigParser()'),'NameError'),
+                ((f'{choice(["server_ad", "addr", "server_addr"])} = question("What server do you want to connect to? ")',),'NameError'),
             ),(
-                (("",),'# print an empty list'),
-                ((f"config.read('filename.ini'",f"config.read('filename.ini)",f"config.read(filename.ini')"),'SyntaxError'),
-                ((f"config.read(filename.ini)", f'read("filename.ini")'),'NameError'),
-                ((f"config.{choice(['get','readfile','parse','readall'])}('filename.ini')",),'AttributeError'),
+                ((f"sock = {choice(['Socket','sock','connection','socketConnect'])}.socket(socket.AF_INET, socket.SOCK_STREAM)",),'NameError'),
+                ((f"sock = socket.socket({choice(['Socket','sock','connection','socketConnect'])}.AF_INET, socket.SOCK_STREAM)",),'NameError'),
+                ((f"sock = socket.socket(socket.AF_INET, {choice(['Socket','sock','connection','socketConnect'])}.SOCK_STREAM)",),'NameError'),
+                ((f"sock = socket.{choice(['Socket','sock','connection','socketConnect'])}(socket.AF_INET, socket.SOCK_STREAM)"),'NameError'),
+                ((f"sock = socket.socket(socket.{choice(['AFNET','INET','AF','INTERNET','WEB_NET'])}, socket.SOCK_STREAM)",),'AttributeError'),
+                ((f"sock = socket.socket(socket.AF_INET, socket.{choice(['SOCK_NET','SOCKSTREAM','SOCKET_STREAM','STREAM'])})",),'AttributeError'),
+                ((f"sock socket.socket(socket.AF_INET, socket.SOCK_STREAM)",f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)",f"sock = socket.socket(socket.AF_INET socket.SOCK_STREAM)",f"sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM"),'SyntaxError'),
             ),(
-                (("config.sections","config.sections()",),'No output'),
-                (("print(sections())",'sections()', 'Config.sections', "print('Config.sections()')"),'NameError'),
-                (("print(config.sections)",),'# print an object id and memory address'),
-            ),
+                ((f"{choice(['Socket','sock','connection','socketConnect'])}.connect((server_addr, 80))",),'NameError'),
+                ((f"sock.{choice(['conn','join','connection','socketConnect'])}((server_addr, 80))",),'AttributeError'),
+                ((f"sock.connect({choice(['server','addr'])})",),'NameError'),
+                (("sock.connect(server_addr, 80))","sock.connect((server_addr, 80)","sock.connect((server_addr, 80",),'SyntaxError'),
+            ),(
+                ((f'''{choice(['Socket','sock','connection','socketConnect'])}.send(b"GET / 4HTTP/1.1\\r\\nHost: " +"''',),'NameError'),
+                ((f"sock.{choice(['transmit','socksend'])}(b'GET / 4HTTP/1.1\\r\\nHost: ' +'",),'AttributeError'),
+            ),(
+                (('\tbytes(server_addr, utf8") +','\\t\\t\\tbytes(server_addr, "utf8) +'),'SyntaxError'),
+                (('\tbytes(server_addr, utf8) +',),'NameError'),
+            ),(
+                (('\tb"\\r\\nConnection: close\\r\\n\\r\\n"','\\t\\t\\t\b\\r\\nConnection: close\\r\\n\\r\\n")'),'SyntaxError'),
+            ),(
+                ((f'reply = {choice(["Socket","sock","connection","socketConnect"])}.recv({choice(["chunk","bytes","data"])})',f'reply = sock.recv({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})'),'NameError'),
+                ((f'reply = sock.{choice(["recieve","get","connect", "socket"])}({choice(["1000","2000","256", "512", "1024",randint(100, 3000)])})',),'AttributeError'),
+            ),(
+                ((f'sock.shutdown(socket.SHUT_{choice(["READWRITE","READ","WRITE"])}',),'AttributeError'),
+            ),(
+                ((f"{choice(['Socket','sock','connection','socketConnect'])}.close()",),'NameError'),
+            ),(
+                (('print(reply)',),'#recieve an HTTP response and print socket reply object address'),
+                (('reply',),'# no output')
+            )
         )
     },
+
+    
+
     # requests methods
     # code outcomes
     # return request object meanings #https://pypi.org/project/requests/
@@ -539,11 +685,7 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     # on a valid url, requests always returns an object
     # no connection raises exception
     # crud acronym
-    # python sock
     # valid port or service number
-    # valid numbers...
-    # valid json string
-    # json equivalences
     # dtd
     # json at 427
     # json module
