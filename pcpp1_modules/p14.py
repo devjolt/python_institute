@@ -54,7 +54,7 @@ questions = {
     },
 
 
-    
+
     'BSD sockets': {
         'question':'Which of the following statements is PLACEHOLDER?',
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
@@ -79,7 +79,7 @@ questions = {
             'only Python can connect to sockets',
             'reading from a socket results in sending the data through a network',
             'writing to a socket enables you to receive the data coming from the network',
-            
+
         ),
     },
 
@@ -114,7 +114,7 @@ questions = {
             ('an IP4 address', ('the address of the computer where a socket is located','32-bit long value used to identify computers connected to any TCP/IP network', ip_address())),
             ('a port number', 'the identifier of the virtual socket interface'),
             ('socket address', ('the address of the computer where a socket is located and the port number', f'{ip_address()} 80')),
-            ('socket/service number', 'a 16-bit long integer number identifying a socket within a particular system', f'{randint(1, 65536)}'), 
+            ('socket/service number', 'a 16-bit long integer number identifying a socket within a particular system', f'{randint(1, 65536)}'),
             ('protocol', ('a standardized set of rules allowing processes to communicate with each other','specification of the rules of behaviour for all participants')),
 
         ),
@@ -138,10 +138,10 @@ questions = {
             'INET can be used for programs working within one operating system to communicate',
             'Unix domain is not used for programs working in different computer systems to communicate',
             f"{ip_address()} is an IP address",
-            'there are 65,536 possible socket/service numbers', 
+            'there are 65,536 possible socket/service numbers',
             'many standard network services usually use the same, constant socket numbers',
             'IPv4 addresses are 32 bits long',
-            f'{ip_address()} 80 is a socket address', 
+            f'{ip_address()} 80 is a socket address',
         ),
         'incorrect': (
             'INET can not be used for programs working within one operating system to communicate',
@@ -150,13 +150,13 @@ questions = {
             f"{ip_address()} is not an IP address",
             f"{'.'.join([str(randint(0, 255)) for i in range(randint(2,3))])} is an IP address",
             f"{'.'.join([str(randint(0, 255)) for i in range(5)])} is an IP address",
-            'there are 65,536 possible IP addresses', 
+            'there are 65,536 possible IP addresses',
             f'IPv4 addresses are {randint(24,31)} bits long',
             f'IPv4 addresses are {randint(33,42)} bits long',
-            f'{ip_address()} is a socket address', 
+            f'{ip_address()} is a socket address',
         ),
     },
-    
+
     'Protocol stacks': {
         'type':'make_items_question_from_pairs',
         'course_code':'',
@@ -214,7 +214,7 @@ questions = {
             'TCP has fewer overheads than UDP',
             'IP uses handshakes',
             'UDP uses handshakes'
-            
+
         ),
     },
 
@@ -242,15 +242,15 @@ questions = {
         'positive':'correct',
         'negative':'incorrect',
         'course_code':'1.1.1.6',
-        
+
         'question':'Which of the following statements is PLACEHOLDER?',
         'correct':(
-            'Connection-oriented communications are usually built on top of TCP', 
-            'Connectionless communications are usually built on top of UDP', 
-            'Clients initiate a connection', 
-            'Servers answer a request to connect', 
+            'Connection-oriented communications are usually built on top of TCP',
+            'Connectionless communications are usually built on top of UDP',
+            'Clients initiate a connection',
+            'Servers answer a request to connect',
             'In connection-oriented communication, both arties have different roles and routines',
-            "In connection-oriented communication, both parties aren't symmertrical",  
+            "In connection-oriented communication, both parties aren't symmertrical",
             'In connection-oriented communication, both parties are aware that the other party is connected',
             'Connection-oriented communication requires preliminary steps to establish the connection and other steps to finish it'
             'Connectionless communication can be established ad-hoc',
@@ -258,12 +258,12 @@ questions = {
             'In connectionless communication, neither parties are aware of the other side\'s state'
         ),
         'incorrect':(
-            'Connectionless communications are usually built on top of TCP', 
-            'Connection-oriented communications are usually built on top of UDP', 
-            'Servers initiate a connection', 
-            'Clients answer a request to connect', 
+            'Connectionless communications are usually built on top of TCP',
+            'Connection-oriented communications are usually built on top of UDP',
+            'Servers initiate a connection',
+            'Clients answer a request to connect',
             'In connectionless communication, both arties have different roles and routines',
-            "In connectionless communication, both parties aren't symmertrical",  
+            "In connectionless communication, both parties aren't symmertrical",
             'In connectionless communication, both parties are aware that the other party is connected',
             'Connectionless communication requires preliminary steps to establish the connection and other steps to finish it'
             'connection-oriented communication can be established ad-hoc',
@@ -282,7 +282,7 @@ questions = {
             (('$sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)', '$sock = socket.socket()', '$sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)'), 'create a socket object'),
             (('$family = socket.AF_INET', '$socket.AF_INET'), "configure a socket to use TCP/IP domain"),
             (('$type = socket.SOCK_STREAM', '$socket.SOCK_STREAM'), ('specify a high-level socket able to act as a character device', 'transfer data byte by byte, not as fixed sized blocks')),
-            (('$type = socket.SOCK_DGRAM', '$socket.SOCK_DGRAM'), 'specify a socket for use with UDP if used when creating a socket'),    
+            (('$type = socket.SOCK_DGRAM', '$socket.SOCK_DGRAM'), 'specify a socket for use with UDP if used when creating a socket'),
         ),
         'fillers': (
             ('$import time', 'message server'),
@@ -296,31 +296,31 @@ questions = {
         'positive':'correct',
         'negative':'incorrect',
         'course_code':'1.2.1',
-        
+
         'question':'Which of the following snippets is PLACEHOLDER?',
         'correct':(
-            '$import socket', 
-            '$sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)', 
-            '$sock = socket.socket()', 
+            '$import socket',
+            '$sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)',
+            '$sock = socket.socket()',
             '$sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)',
-            '$family = socket.AF_INET', 
+            '$family = socket.AF_INET',
             '$socket.AF_INET',
-            '$type = socket.SOCK_STREAM', 
+            '$type = socket.SOCK_STREAM',
             '$socket.SOCK_STREAM',
-            '$type = socket.SOCK_DGRAM', 
+            '$type = socket.SOCK_DGRAM',
             '$socket.SOCK_DGRAM',
         ),
         'incorrect':(
             '$import sock', '$from socket import sock',
-            '$sock = socket.socket(socket.INET, socket.SOCK_STREAM)', 
-            '$sock = socket.socket(socket.AF_INET, socket.STREAM)', 
-            '$sock = socket(socket)', 
+            '$sock = socket.socket(socket.INET, socket.SOCK_STREAM)',
+            '$sock = socket.socket(socket.AF_INET, socket.STREAM)',
+            '$sock = socket(socket)',
             '$sock = socket.socket(family=socket.SOCK_DGRAM, type=socket.AF_INET)',
-            '$type = socket.AF_INET', 
+            '$type = socket.AF_INET',
             '$socket.AF_INTERNET',
-            '$family = socket.SOCK_STREAM', 
+            '$family = socket.SOCK_STREAM',
             '$socket.SOCKSTREAM',
-            '$family = socket.SOCK_DGRAM', 
+            '$family = socket.SOCK_DGRAM',
             '$family = socket.SOCK_DDRAM',
             '$socket.SOCK_DATAGRAM',
         ),
@@ -330,7 +330,7 @@ questions = {
     'Creating sockets and connecting to sockets with python':{
         'type':'make_items_question_from_pairs',
         'course_code':'1.2.1.3',
-        
+
         'question_with_0':['Match the following code and commentary:','PLACEHOLDER'],
         'question_with_1':'',
         'pairs':(
@@ -342,7 +342,7 @@ sock = socket.socket()'''), 'create a socket object'),
 sever_addr = '{ip_address()}'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((server_addr, 80))'''), 'try to connect to a server'),
-            (('$import sockets', '$sock = socket.socket()', 
+            (('$import sockets', '$sock = socket.socket()',
             '''$import sockets
 sock = socket(socket.AF_INET, socket.SOCK_STREAM)''',
             '''$import sockets
@@ -350,7 +350,7 @@ socket.socket(socket.AF_INET, socket.SOCK_STREAM)''',
             f'''$import sockets
 sever_addr = '{ip_address()}'
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-connect((server_addr, 80))''', 
+connect((server_addr, 80))''',
             f'''$import sockets
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connect((server_addr, 80))'''),'raise an exception'),
@@ -367,11 +367,11 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     },
     'Using HTTP GET':{
     'type':'make_items_question_from_pairs',
-    'course_code':'1.2.1',      
+    'course_code':'1.2.1',
     'question_with_0':['Match the following code and commentary:','PLACEHOLDER'],
     'question_with_1':'',
     'pairs':(
-        ('$GET / HTTP/1.1\r\n', 'method used'), 
+        ('$GET / HTTP/1.1\r\n', 'method used'),
         ('$Host: www.site.com\r\n', 'resource'),
         ('$Connection: close\r\n', 'force close'),
         ('$\r\n', 'terminate line'),
@@ -380,7 +380,7 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             '$GET / HTML/1.1 \r\n','$HTTP: www.site.com\r\n','$Connect: True\r\n',
           ), 'invalid code')
     ),
-    
+
     'fillers' :(),
     },
 
@@ -388,11 +388,11 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
 
     'Python socket module':{
     'type':'make_items_question_from_pairs',
-    'course_code':'1.2.1',      
+    'course_code':'1.2.1',
     'question_with_0':['Match the following:','PLACEHOLDER'],
     'question_with_1':'',
     'pairs':(
-        ('$socket', 'be used to create a new socket'), 
+        ('$socket', 'be used to create a new socket'),
         ('$connect', 'attempt to reach a port address'),
         ('$send', ('send a request to a server', 'natively accepts bytes')),
         ('$recv', ('wait for a server response', 'place server response in a bytes like object')),
@@ -402,27 +402,27 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         ('$AF_INET6', 'specify IPv6 address family'),
         ('$AF_UNIX', 'specify UNIX address family'),
         ('$SHUT_RD', ' response will no longer be required after shutdown'),
-        (('$sockit', '$conn', '$snd', '$recieve', '$AF_INTERNET', '$AF_LINUX', '$SOCKET_STREAM', '$SOCKET_STRM', '$SOCKET_DGRAM', '$AF_IV6'), 'cause failure'),  
-    ),  
+        (('$sockit', '$conn', '$snd', '$recieve', '$AF_INTERNET', '$AF_LINUX', '$SOCKET_STREAM', '$SOCKET_STRM', '$SOCKET_DGRAM', '$AF_IV6'), 'cause failure'),
+    ),
     'fillers' :(),
     },
 
 
     'Python socket exceptions':{
     'type':'make_items_question_from_pairs',
-    'course_code':'1.2.1',      
+    'course_code':'1.2.1',
     'question_with_0':['Match the following exceptions with their causes:','PLACEHOLDER'],
     'question_with_1':'',
     'pairs':(
-        ('$socket.gaierror', 'be raised for address-related errors by getaddrinfo() and getnameinfo()'), 
+        ('$socket.gaierror', 'be raised for address-related errors by getaddrinfo() and getnameinfo()'),
         ('$socket.timeout', 'be raised when the server has not responded'),
-        ('$socket.error', 'not be seen because it is deprecated'), 
+        ('$socket.error', 'not be seen because it is deprecated'),
         ('$socket.herror', 'be raised for address-related errors by getaddrinfo() and getnameinfo()'),
     ),
     'fillers' :(),
     },
 
-    
+
     'sockets_with_python':{
         'type':[
             'code_block_question_line_answer_comment',
@@ -491,14 +491,14 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
 
     'JSON introduction':{
     'type':'make_items_question_from_pairs',
-    'course_code':'1.3.1',      
+    'course_code':'1.3.1',
     'question_with_0':'What does PLACEHOLDER mean?',
     'question_with_1':'',
     'pairs':(
         ('JSON', 'Java Script Object Notation'),
-        ('UTF-8', '8-Bit Universal Character Set Transformation Format'), 
-        ('serialization', 'process in which a python object is converted into textual or any other portable formal'), 
-        ('deserialization', 'process in which a portable format is converted into a python object'), 
+        ('UTF-8', '8-Bit Universal Character Set Transformation Format'),
+        ('serialization', 'process in which a python object is converted into textual or any other portable formal'),
+        ('deserialization', 'process in which a portable format is converted into a python object'),
     ),
     'fillers' :(),
     },
@@ -506,10 +506,10 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
     'positive':'correct',
     'negative':'incorrect',
-    'course_code':'1.3.1',      
+    'course_code':'1.3.1',
     'question':'Which of the following statements are PLACEHOLDER?',
     'correct':(
-        'JSON stands for Java Script Object Notation', 
+        'JSON stands for Java Script Object Notation',
         'JSON can be used outside of JavaScript code',
         'JSON uses UTF-8 coded text',
         'JSON uses a simple syntax',
@@ -528,8 +528,8 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         'JSON objects can be nested',
     ),
     'incorrect' :(
-        'JSON stands for Java Script Oriented Notation', 
-        'JSON stands for Java Signed Object Notation', 
+        'JSON stands for Java Script Oriented Notation',
+        'JSON stands for Java Signed Object Notation',
         'JSON can not be used outside of JavaScript code',
         'JSON uses Unicode coded text',
         'JSON uses a complex syntax',
@@ -549,32 +549,32 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'correct',
         'negative':'incorrect',
-        'course_code':'1.3.1',      
+        'course_code':'1.3.1',
         'question':'Which of the following values are supported by json?',
         'correct':(
-            f'{randint(1, 100)}', 
+            f'{randint(1, 100)}',
             f'int({randint(1, 100)})',
         ),
         'incorrect' :(
-            f'bin({randint(1, 100)})', 
+            f'bin({randint(1, 100)})',
             f'oct({randint(1, 100)})',
-            f'hex({randint(1, 100)})',        
+            f'hex({randint(1, 100)})',
         ),
     },
     'json_diagraphs':{
         'type':'make_items_question_from_pairs',
-        'course_code':'1.3.1',      
+        'course_code':'1.3.1',
         'question_with_0':'In a JSON string, what is a PLACEHOLDER?',
         'question_with_1':'',
         'pairs':(
             ('\\\\', '\\'),
-            ('\/', '/'), 
-            ('\\b', 'backspace'), 
-            ('\\f', 'form feed'), 
-            ('\\n', 'line feed'), 
-            ('\\', 'carriage return'), 
+            ('\/', '/'),
+            ('\\b', 'backspace'),
+            ('\\f', 'form feed'),
+            ('\\n', 'line feed'),
+            ('\\', 'carriage return'),
             ('\\t', 'tabulation'),
-            (('\\uxxxx','\\Uxxxx',),'UNICODE codepoint') 
+            (('\\uxxxx','\\Uxxxx',),'UNICODE codepoint')
         ),
         'fillers' :(
             (('\\h','\\z','\\a','\\p','\\l','\\c','\\v'), ('double space', 'paragraph', 'header')),
@@ -584,10 +584,10 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
         'positive':'',
         'negative':'not',
-        'course_code':'1.3.1',      
+        'course_code':'1.3.1',
         'question':'Which of the following values is PLACEHOLDER valid JSON data?',
         'correct':(
-            f'{randint(1, 100)}', 
+            f'{randint(1, 100)}',
             f'"{choice(["some", "interesting", "more", "useful"])} text"',
             f'{choice(["true", "false", "null"])}',
             f'{choice(["[]", "{}"])}',
@@ -600,7 +600,7 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         ),
         'incorrect' :(
             f'0x{randint(1, 100)}',
-            f'0o{randint(1, 100)}', 
+            f'0o{randint(1, 100)}',
             f'0b{randint(1, 100)}',
             f'{choice(["True", "False", "Null", "None"])}',
             f"""'{choice(["some", "interesting", "more", "useful"])} text'""",
@@ -615,11 +615,11 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             f'''{{{choice(["some", "interesting", "more", "useful"])} text:{randint(1, 100)}}}''',
             f'''{{{randint(1, 100)}:{choice(["some", "interesting", "more", "useful"])} text}}''',
             f'{{"{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)} "{choice(["some", "interesting", "more", "useful"])} text":{randint(1, 100)}}}',
-            f'{{{randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text" {randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text"}}',     
+            f'{{{randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text" {randint(1, 100)}:"{choice(["some", "interesting", "more", "useful"])} text"}}',
         ),
     },
 
-    
+
     'json_with_python':{
         'type':[
             'code_block_question_line_answer_comment',
@@ -682,8 +682,30 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             )
         )
     },
+    'xml_structure':{
+        'type':[
+            'code_block_question_line_answer_comment',
+            #'code_block_outcome',
+            #'code_block_error_lines',
+        ],
+        'constants':{
+            'ITEM':choice(['car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaurs'])
+        },
+        'valid':(
+            (
+                ((f'<?xml version = \"1.{randint(0,1)}\" encoding = \"utf-{choice([8, 16, 32])}\"?>',),'# gives information about the document'),
+                (('<!-- ITEMs.xml - List of ITEMs ready to sell -->',),'# will not be parsed'),
+                ((f'<!DOCTYPE cars_for_sale {choice(["SYSTEM","PUBLIC"])} "ITEMs.dtd">',),'# aggregate document with external definition'),
+                (("<ITEMs_for_sale>",),'# a root element tag'),
+                (('\t<ITEM>',),'# a sub-element tag'),
+                ((f'\t\t<id>{randint(1, 50)}</id>',),'# a sub element tag containing text'),
+                ((f'\t\t<price currency="choice(["USD","GBP","EURO","AUD","SAR","RMB"])>{randint(5, 3000)}</price>',),'# a sub-element tag containing an attribute'),
+                (('\t</ITEM>',),'# a closing tag'),
+                ((f'</ITEMs_for_sale>',),'# closing the root tag'),
+            ),
+        ),
 
-
+    },
 
     # requests methods
     # code outcomes
@@ -697,19 +719,19 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     # dtd
     # json at 427
     # json module
-    # 
-    
+    #
+
     #new code question type with same data:
     #four alternatives, and say which will get the answer we ask for
     #radmonly select a number of lines to go down the code
     #each correct line of code also has as an arg what will happen if only goes that far
-    #make question code, and ask what will happen. 
-    
-    
+    #make question code, and ask what will happen.
+
+
 
 }
-    
-    
+
+
 
 
 
