@@ -689,23 +689,135 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             #'code_block_error_lines',
         ],
         'constants':{
-            'ITEM':choice(['car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaurs'])
+            'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe'])
+        },
+        'constant_collections':{
+            'generic':{'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe'])},
+            'generic2':{'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe'])},
         },
         'valid':(
             (
                 ((f'<?xml version = \"1.{randint(0,1)}\" encoding = \"utf-{choice([8, 16, 32])}\"?>',),'# gives information about the document'),
                 (('<!-- ITEMs.xml - List of ITEMs ready to sell -->',),'# will not be parsed'),
-                ((f'<!DOCTYPE cars_for_sale {choice(["SYSTEM","PUBLIC"])} "ITEMs.dtd">',),'# aggregate document with external definition'),
+                ((f'<!DOCTYPE ITEMs_for_sale {choice(["SYSTEM","PUBLIC"])} "ITEMs.dtd">',),'# aggregate document with external definition'),
                 (("<ITEMs_for_sale>",),'# a root element tag'),
-                (('\t<ITEM>',),'# a sub-element tag'),
+                (('\t<ITEM>',),'# a sub-element opening tag'),
                 ((f'\t\t<id>{randint(1, 50)}</id>',),'# a sub element tag containing text'),
-                ((f'\t\t<price currency="choice(["USD","GBP","EURO","AUD","SAR","RMB"])>{randint(5, 3000)}</price>',),'# a sub-element tag containing an attribute'),
-                (('\t</ITEM>',),'# a closing tag'),
-                ((f'</ITEMs_for_sale>',),'# closing the root tag'),
+                ((f'\t\t<price currency="{choice(["USD","GBP","EURO","AUD","SAR","RMB"])}">{randint(5, 3000)}</price>',),'# a sub-element tag containing an attribute'),
+                (('\t</ITEM>',),'# an element closing tag'),
+                (('\t</ITEM>',),'# an empty element'),
+                ((f'</ITEMs_for_sale>',),'# root closing tag'),
             ),
         ),
-
     },
+    'xml_terminography':{
+        'type':'make_items_question_from_pairs',
+        'course_code':'1.3.1',
+        'question_with_0':['In XML, what is the following:', 'PLACEHOLDER'],
+        'question_with_1':'In XML, which is PLACEHOLDER?',
+        'pairs':(
+            ('$utf-8', 'the encouraged form of document encoding'),
+            (['$utf-16','$utf-32'], 'a discouraged form of document encoding'),
+            (['$XML 1.0','$XML 1.1'], 'one of the two current versions of XML'),
+            ('$<? ?>', 'used to enclose declaration of xml file type'),
+            ('$<!-- -->', 'used to enclose an xml comment'),
+            ('$file.dtd', 'a meta document URI'),
+            ('$<id>', 'an xml opening tag'),
+            ('$<id\>', ['an empty xml element', 'a closing xml tag']),
+            ('$data=stuff', 'an xml attribute value pair'),
+            (['$PUBLIC','$SYSTEM'],'showing dtd availability'),
+            ('$DOCTYPE','allowing aggregation of document with external definition'),
+            ('$SGML','the language used to describe document content'),
+        ),
+        'fillers' :(
+            (('PRIVATE','DOC',f'$<id\\\\>',f'$<id/>',f'$<\\id>','$[id]','$utf-4','$utf-64','$XML 3.0',f'$<{choice(["! !","* *","£ £"])}>',f'$<{choice(["!-- --!","*-- --*","£-- --£"])}>'), ('denotes an epilogue','parsing language')),
+        ),
+    },
+    'xml_structure':{
+        'type':[
+            'code_block_question_line_answer_comment',
+            'code_block_outcome',
+            'code_block_error_lines',
+        ],
+        #'constants':{
+        #    'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe'])
+        #},
+        'constant_collections':{
+            'generic':{
+                'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe']),
+                'ATTRIB':choice(['price','size','age','value','happiness','flavour']),
+            },
+        },
+        'valid':(
+            (
+                ((f'import xml.etree.ElementTree',),'# import python module'),
+                (('ITEMs_xml_parsed = xml.etree.ElementTree.parse("ITEM.xml")',),'# read XML document, build tree object, and return it'),
+                (('ITEMs_xml_root = ITEMs_xml_parsed.getroot()',),'# find root element of tree'),
+                ((f'print(ITEMs_xml_root.tag)',),'# print tag name associated with root'),
+                (("for ITEM in ITEMs_xml_root.findall('ITEM'):",),'SyntaxError'),
+                (('\tprint("\t", ITEM.tag)',),'# print tag name'),
+                (('\tfor prop in ITEM:',),'SyntaxError'),
+                ((f'\t\tprint(prop.tag, end="")',),'# print sub element tag name'),
+                (('\t\tif prop.tag == "ATTRIB":print(prop.attrib)',),'# print attributes from tags with specified names'),
+                ((f'\tprint(prop.text)',),'# print text within tag'),
+            ),(
+                ((f'import xml.etree.ElementTree as ET',),'# import python module as alias'),
+                (('ITEMs_xml_parsed = ET.parse("ITEM.xml")',),'# read XML document, build tree object, and return it'),
+                (('ITEMs_xml_root = ITEMs_xml_parsed.getroot()',),'# find root element of tree'),
+                ((f'print(ITEMs_xml_root.tag)',),'# print tag name associated with root'),
+                (("for ITEM in ITEMs_xml_root.findall('ITEM'):",),'# iterate through all ITEM elements'),
+                (('\tprint("\t", ITEM.tag)',),'# print tag name'),
+                (('\tfor prop in ITEM:',),'# iterate through ITEM sub elements'),
+                ((f'\t\tprint(prop.tag, end="")',),'# print sub element tag name'),
+                (('\t\tif prop.tag == "ATTRIB":print(prop.attrib)',),'# print attributes from tags with specified names'),
+                ((f'\tprint(prop.text)',),'# print text within tag'),
+            )
+        ),
+        'invalid':(
+            (
+                ((f'import etree.ElementTree','import ElementTree', 'import ET'),'ModuleNotFoundError'),
+                ((f'import','import as ET'),'SyntaxError'),
+                ((f"from xml.etree.ElementTree import {choice(['Tree','Root', 'ET'])}",),'ImportError'),
+            ),(   
+                (('ITEMs_xml_parsed = xmletreeElementTree.parse("ITEM.xml")','ITEMs_xml_parsed = xmletree.ElementTree.parse("ITEM.xml")'),'NameError'),
+                (('ITEMs_xml_parsed = xml.tree.ElementTree.parse("ITEM.xml")','ITEMs_xml_parsed = xml.tree.Elementtree.parse("ITEM.xml")','ITEMs_xml_parsed = xml.tree.ElementTree.prse("ITEM.xml")',),'AttributeError'),
+            ),(
+                (('ITEMs_xml_root = ITEMs_xmlparsed.getroot()','ITEMs_xml_root = ITEMs_xml_parse.getroot()','ITEMs_xml_root = ITEM_xml_parsed.getroot()',),'NameError'),
+                (('ITEMs_xml_root = ITEMs_xml_parsed.root()','ITEMs_xml_root = ITEMs_xml_parsed.parseroot()','ITEMs_xml_root = ITEMs_xml_parsed.gettree()',),'# AttributeError'),
+            ),(
+                ((f'print(ITEM_xml_root.tag)','print(ITEMs_xmlroot.tag)'),'NameError'),
+                ((f'print(ITEMs_xml_root.tg)',),'AttributeError'),
+                ((f'print(ITEMs_xml_root.tg',f'printITEMs_xml_root.tg)',),'SyntaxError'),
+                ((f'ITEMs_xml_root.tag',),'# no output'),
+            ),(
+                (("for ITEM in ITMs_xml_root.findall('ITEM'):","for ITEM in ITEM_xml_root.findall('ITEM'):","for ITEM in ITEMs_xml_rot.findall('ITEM'):",),'NameError'),
+                (("for ITEM in ITEMs_xml_root.findthem('ITEM'):","for ITEM in ITEMs_xml_root.findmany('ITEM'):","for ITEM in ITEMs_xml_root.searchall('ITEM'):",),'AttributeError'),
+                (("for ITEM in ITEMs_xml_root.findall(ITEM'):","for ITEM in ITEMs_xml_root.findall('ITEM):","for ITEM ITEMs_xml_root.findall('ITEM'):","for ITEM in ITEMs_xml_root.findall('ITEM')"),'SyntaxError'),
+            ),(
+                (('\tprin("\t", ITEM.tag)','\tprint("\t", ITM.tag)'),'NameError'),
+                (('\tprint("\t", ITEM.tg)','\tprint("\t", ITEM.tags)',),'AttributeError'),
+                (('\tprint(\t", ITEM.tag)','\tprint("\t", ITEM.tag',),'SyntaxError'),
+            ),(
+                (('\tfor prop in ITM:','\tfor prop in TEM:','\tfor prop in TAG:',),'NameError'),
+                (('\tfor "prop in ITEM:','\tfor prop ITEM:','\tfor prop in ITEM',),'SyntaxError'),
+            ),(
+                ((f'\t\tprin(prop.tag, end="")','\t\tprint(prp.tag, end="")','\t\tprint(pop.tag, end="")',),'NameError'),
+                ((f'\t\tprint(prop.tg, end="")','\t\tprint(prop.ag, end="")','\t\tprint(prop.ta, end="")',),'AttributeError'),
+                ((f'\t\tprint(prop.tag, end=""','\t\tprint(prop.tag end="")',),'SyntaxError'),
+            ),(
+                (('\t\tif prp.tag == "ATTRIB":print(prop.attrib)','\t\tif prop.tag == "ATTRIB":print(prp.attrib)',),'NameError'),
+                (('\t\tif prop.tag == "ATTRIB" print(prop.attrib)','\t\tif prop.tag == ATTRIB":print(prop.attrib)','\t\tif prop.tag = ATTRIB":print(prop.attrib)',),'SyntaxError'),
+                (('\t\tif prop.tag == "ATTRIB":print(prop.attrib)','\t\tif prop.tg == "ATTRIB":print(prop.atrib)',),'AttributeError'),
+            ),(
+                ((f'\tprit(prop.text)','\tprint(rop.text)','\tprint(prp.text)',),'NameError'),
+                ((f'\tprint(prop text)','\tprint(prop.text','\tprint prop.text)',),'SyntaxError'),
+                ((f'\tprint(prop.txt)','\tprint(prop.tex)','\tprint(prop.ext)',),'AttributeError'),
+                ((f'\tprint()','\tprop.text'),'# No output'),
+            )
+        )
+    },
+
+
 
     # requests methods
     # code outcomes
@@ -713,21 +825,12 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     # status code meanings
     # keep alive
     # on a valid url, requests always returns an object
-    # no connection raises exception
-    # crud acronym
     # valid port or service number
-    # dtd
     # json at 427
     # json module
-    #
 
     #new code question type with same data:
     #four alternatives, and say which will get the answer we ask for
-    #radmonly select a number of lines to go down the code
-    #each correct line of code also has as an arg what will happen if only goes that far
-    #make question code, and ask what will happen.
-
-
 
 }
 
