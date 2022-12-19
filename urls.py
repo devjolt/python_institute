@@ -25,11 +25,11 @@ pcap_patterns = [
 pcpp1_patterns = [    
     path('', PCPP1View.as_view(), name='pcpp1_home'),
     path('random/', RandomModuleView.as_view(modules = (p11, p12, p13, p14,)), name = 'random_pcpp1'),
-    path('1/', RandomModuleView.as_view(modules = (p11,)), name = 'OOP'),
-    path('2/', RandomModuleView.as_view(modules = (p12,)), name = 'PEP'),
-    path('3/', RandomModuleView.as_view(modules = (p13,)), name = 'GUI'),
-    path('4/', RandomModuleView.as_view(modules = (p14,)), name = 'REST'),
-    path('5/', RandomModuleView.as_view(modules = (p15,)), name = 'Files'),
+    path('p11/', RandomModuleView.as_view(modules = (p11,)), name = 'OOP'),
+    path('p12/', RandomModuleView.as_view(modules = (p12,)), name = 'PEP'),
+    path('p13/', RandomModuleView.as_view(modules = (p13,)), name = 'GUI'),
+    path('p14/', RandomModuleView.as_view(modules = (p14,)), name = 'REST'),
+    path('p15/', RandomModuleView.as_view(modules = (p15,)), name = 'Files'),
     path('<str:module_str>/<str:question>/', specific_question_view, name = 'Specific'),
 ]
 

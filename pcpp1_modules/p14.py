@@ -2,6 +2,9 @@ from random import randint
 
 from .p14_logic import *
 
+def hex_val():
+    return choice(['1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'])
+
 def ip_address(length = 4):
     return '.'.join([str(randint(0, 255)) for i in range(length)])
 
@@ -545,12 +548,12 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
         ),
     },
     'JSON dumps':json_dumps,
-    'JSON value support':{
+    'json_valid_numerical_values':{
         'type':['multi_option_from_correct_incorrect', 'make_items_question_from_correct_incorrect'],
-        'positive':'correct',
-        'negative':'incorrect',
+        'positive':'',
+        'negative':'not',
         'course_code':'1.3.1',
-        'question':'Which of the following values are supported by json?',
+        'question':'Which of the following values are PLACEHOLDER supported by json?',
         'correct':(
             f'{randint(1, 100)}',
             f'int({randint(1, 100)})',
@@ -559,6 +562,9 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             f'bin({randint(1, 100)})',
             f'oct({randint(1, 100)})',
             f'hex({randint(1, 100)})',
+            f'0b{"".join([str(randint(0,1)) for i in range(randint(1,5))])}',
+            f'0o{"".join([str(randint(0,8)) for i in range(randint(1,5))])}',
+            f'0x{"".join([hex_val() for i in range(randint(1,5))])}',
         ),
     },
     'json_diagraphs':{
@@ -833,8 +839,3 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     #four alternatives, and say which will get the answer we ask for
 
 }
-
-
-
-
-
