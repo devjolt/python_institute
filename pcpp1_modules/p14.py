@@ -691,8 +691,9 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
     'xml_structure':{
         'type':[
             'code_block_question_line_answer_comment',
-            #'code_block_outcome',
-            #'code_block_error_lines',
+            'code_block_outcome',
+            'code_block_error_lines',
+            
         ],
         'constants':{
             'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe'])
@@ -739,11 +740,12 @@ connect((server_addr, 80)),''', 'cause an infinite loop'),
             (('PRIVATE','DOC',f'$<id\\\\>',f'$<id/>',f'$<\\id>','$[id]','$utf-4','$utf-64','$XML 3.0',f'$<{choice(["! !","* *","£ £"])}>',f'$<{choice(["!-- --!","*-- --*","£-- --£"])}>'), ('denotes an epilogue','parsing language')),
         ),
     },
-    'xml_structure':{
+    'reading_xml_with_python':{
         'type':[
             'code_block_question_line_answer_comment',
             'code_block_outcome',
             'code_block_error_lines',
+            #'code_block_valid_invalid_lines',
         ],
         #'constants':{
         #    'ITEM':choice(['book', 'apple', 'hat', 'car', 'dalek', 'cow', 'console', 'dog', 'cat', 'cake', 'muffin', 'dinosaur', 'cookie' ,'smoothie', 'membership', 'beard', 'shoe'])

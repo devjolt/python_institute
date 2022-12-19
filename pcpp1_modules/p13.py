@@ -98,53 +98,55 @@ questions = {
         )
     },
     'tkinter_button':{
-        'type':'code_block_question', 
+        'type':[
+            'code_block_valid_invalid_lines',
+            #'code_block_question_line_answer_comment',
+            #'code_block_outcome',
+            #'code_block_error_lines',
+        ],
         'valid':(
             (
-                ('import tkinter', 'Import tkinter library'),
+                (('import tkinter',), '# Import tkinter library'),
+                (('window = tkinter.Tk()',), '# Create tkinter window object'),
+                (('window.title("my_window")',), '# Add title to window'),
+                (('button = tkinter.Button(window, text="Bleep")',), '# Create button object'),
+                ((f"button.place(x={randint(1,10)*10}, y={randint(1,10)*10}{choice([', width=30', 'height=30',''])})",), '# Position button 10 down and right of the top left corner of the window'),
+                (('window.mainloop()',), choice(['# Window appears with a clickable button','# Window controller starts']))
             ),
             (
-                ('window = tkinter.Tk()', 'Create tkinter window object'),
-            ),
-            (
-                ('window.title("my_window")', 'Add title to window'),
-            ),
-            (
-                ('button = tkinter.Button(window, text="Bleep")', 'Create button object'),
-            ),
-            (
-                (f"button.place(x={randint(1,10)*10}, y={randint(1,10)*10}{choice([', width=30', 'height=30',''])})", 'Position button 10 down and right of the top left corner of the window'),
-                (f"button.pack({choice(['fill=tk.X','fill=tk.y',''])})", 'Place button in window'),
-            ),
-            (
-                ('window.mainloop()', choice(['Window appears with a clickable','Window controller starts']))
-
+                (('import tkinter',), '# Import tkinter library'),
+                (('window = tkinter.Tk()',), '# Create tkinter window object'),
+                (('window.title("my_window")',), '# Add title to window'),
+                (('button = tkinter.Button(window, text="Bleep")',), '# Create button object'),
+                ((f"button.pack({choice(['fill=tk.X','fill=tk.y'])})",), '# Place button in window'),
+                (('window.mainloop()',), choice(['# Window appears with a clickable button','# Window controller starts']))
             )
         ),
         'invalid':(
             (
-                ('import tk', 'ModuleNotFoundError'),
-                ('import Tk', 'ModuleNotFoundError'),
+                (('import tk',), 'ModuleNotFoundError'),
+                (('import Tk',), 'ModuleNotFoundError'),
             ),
             (
-                ('window = tkinter.tk()', "AttributeError: module 'tkinter' has no attribute 'tk'"),
-                ('window = Tk.tkinter()', "NameError: name 'Tk' is not defined"),
+                (('window = tkinter.tk()',), "AttributeError: module 'tkinter' has no attribute 'tk'"),
+                (('window = Tk.tkinter()',), "NameError: name 'Tk' is not defined"),
             ),
             (
-                ('window.maintitle("my_window")', "AttributeError: '_tkinter.tkapp' object has no attribute 'maintitle'"),
+                (('window.maintitle("my_window")',), "AttributeError: '_tkinter.tkapp' object has no attribute 'maintitle'"),
             ),
             (
-                ('button = tk.Button(window, text="Bleep")', "NameError: name 'tk' is not defined"),
+                (('button = tk.Button(window, text="Bleep")',), "NameError: name 'tk' is not defined"),
             ),
             (
-                ('place(button, x=10, y=10)', "NameError: name 'place' is not defined"),
-                (f"button.place({choice(['xval = 30','yval = 30', 'heigt = 30', 'length = 30',])})", "_tkinter.TclError: unknown option"),
+                (('place(button, x=10, y=10)',), "NameError: name 'place' is not defined"),
+                ((f"button.place({choice(['xval = 30','yval = 30', 'heigt = 30', 'length = 30',])})",), "_tkinter.TclError: unknown option"),
             ),
             (
-                ('window.run()', "AttributeError: '_tkinter.tkapp' object has no attribute 'run'"),
-                ('window.loop()', "AttributeError: '_tkinter.tkapp' object has no attribute 'loop'")
+                (('window.run()',), "AttributeError: '_tkinter.tkapp' object has no attribute 'run'"),
+                (('window.loop()',), "AttributeError: '_tkinter.tkapp' object has no attribute 'loop'")
             )
         ),
-    }
+    },
+    'tkinter_create_line':tkinter_create_line,
 
 }

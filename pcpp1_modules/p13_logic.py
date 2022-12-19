@@ -66,4 +66,65 @@ def tkinter_window_coordinates():
     shuffle(items)
     return [{'text':question}], items
 
+def tkinter_create_line():
+    """
+    """
+    size_of_canvas = randint(1,4)*100
+
     
+
+    line_orientation = {
+        "a line from diagonal top left to bottom right":f"\t0, 0,\n\t{size_of_canvas}, {size_of_canvas},\n",
+        "a line from diagonal bottom left to top right":f"\t{size_of_canvas}, 0,\n\t0, {size_of_canvas},\n",
+        "a line from left to right":f"\t0, {int(size_of_canvas/2)},\n\t{size_of_canvas}, {int(size_of_canvas/2)},\n",
+        "a line from top to bottom":f"\t{int(size_of_canvas/2)},0,\n\t{int(size_of_canvas/2)},{size_of_canvas},\n"
+    }
+
+    line_description = {
+        "thin":"\twidth = 1\n",
+        "thick":"\twidth = 40\n",
+        "rounded":"\tcapstyle = 'round'\n",
+        "arrowhead at the start":"\tarrow = 'first'\n",
+        "arrowhead at the end":"\tarrow = 'last'\n",
+        "arrowhead at both ends":"\tarrow = 'both'\n",
+        "dashed":"\tdash = (1),\n",
+        "solid":"\tdash = (),\n"
+    }
+    
+    orientation_key = choice(list(line_orientation.keys()))
+    orientation_code = line_orientation[orientation_key]
+
+    line_description_key = choice(list(line_description.keys()))
+    line_description_code = line_description[line_description_key]
+
+    description = orientation_key + ', ' + line_description_key
+
+    id = 1
+    items = [{'item': description, 'indicator':'correct', 'id':f'item{id}'}]
+    id+=1
+    used = [description]
+
+    while len(items)!=4:
+        if len(items)==3:
+            attempt = choice(list(line_orientation.keys())) + ', ' + choice(list(line_description.keys()))
+        else:
+            attempt = choice(list(line_orientation.keys())) + ', ' + line_description_key
+        if attempt not in used:
+            items.append({'item': attempt, 'indicator':'incorrect', 'id':f'item{id}'})
+            used.append(attempt)
+            id+=1
+
+    code = """"""
+    code+="from tkinter import *\n"
+    code+="w = Tk()\n"
+    code+=f"c = Canvas(w, height = {size_of_canvas}, width = {size_of_canvas})\n"
+    code+="c.pack()\n"
+    code+="c.create_line(\n"
+    code+=orientation_code
+    code+=line_description_code
+    code+=")\n"
+    code+="w.mainloop()"
+
+    question = [{'text':'What will be outcome of the following code?'},{'code':code}]
+    
+    return question, items
