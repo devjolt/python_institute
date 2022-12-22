@@ -1,3 +1,88 @@
+from random import randint, choice, shuffle
+
+# question ideas:
+# class vs instance variables code outcomes
+
+# magic method code outcome
+def object_types():
+    code_options = {
+        "Car":{
+            "instance_name": "wheels",
+            "str_var_name": "make",
+            "str_var": choice(['Audi', 'Mercedes', 'Ford', 'Honda', 'Opel', 'Citroen', 'Maserati']),
+            "int_var_name": "top_speed",
+            "int_var": randint(10, 500)
+            },
+        "Dog":{
+            "instance_name": "pooch",
+            "str_var_name": "breed",
+            "str_var": choice(['Poodle', 'Shitzu', 'Bulldog', 'Yorkshire Terrier', 'Spaniel', 'Retriever']),
+            "int_var_name": "weight",
+            "int_var": randint(10, 100)
+            },
+        "Person":{
+            "instance_name": "homosapien",
+            "str_var_name": "name",
+            "str_var": choice(['Leslie', 'Ron', 'Terry', 'Rob', 'Sam', 'Rudager']),
+            "int_var_name": "age",
+            "int_var": randint(1, 99)
+            },
+    }
+
+    subject = choice(list(code_options.keys()))
+    subject_dict = code_options[subject]
+
+    pairs = (
+        ("<class 'type'>",f'print({subject}.__class__)'),
+        (f"<class '__main__.{subject}'>",f'print({subject_dict["instance_name"]}.__class__)'),
+        ("<class 'str'>",f'print({subject_dict["instance_name"]}.{subject_dict["str_var_name"]}.__class__)'),
+        ("<class 'int'>",f'print({subject_dict["instance_name"]}.{subject_dict["int_var_name"]}.__class__)'),
+        ("<class 'method'>",f'print({subject_dict["instance_name"]}.move.__class__)'),
+    )
+
+    pairs_l = [
+        ["<class 'type'>",f'print({subject}.__class__)'],
+        [f"<class '__main__.{subject}'>",f'print({subject_dict["instance_name"]}.__class__)'],
+        ["<class 'str'>",f'print({subject_dict["instance_name"]}.{subject_dict["str_var_name"]}.__class__)'],
+        ["<class 'int'>",f'print({subject_dict["instance_name"]}.{subject_dict["int_var_name"]}.__class__)'],
+        ["<class 'method'>",f'print({subject_dict["instance_name"]}.move.__class__)'],
+    ]
+
+    code = f"""class {subject}:
+    def __init__(self, {subject_dict["str_var_name"]}, {subject_dict["int_var_name"]}):
+        self.{subject_dict["str_var_name"]} = {subject_dict["str_var_name"]}
+        self.{subject_dict["int_var_name"]} = {subject_dict["int_var_name"]}
+
+    def move(self):
+        return print('going')
+
+{subject_dict['instance_name']} = ({subject_dict["str_var_name"]}, {subject_dict["str_var"]}, {subject_dict["int_var_name"]}={subject_dict["int_var"]})\n"""
+
+    pair = choice(pairs)
+    if randint(0,1)==0: 
+        question = f"Which line of code would you need to add to output:\n{pair[0]}"
+        items = [{'item':"$"+pair[1], 'indicator':'correct', 'id':'item1'}]
+        used, id = [pair[1]], 2
+        while len(items)!=4:
+            attempt = choice(pairs)
+            if attempt[1] not in used:
+                items.append({'item':"$"+attempt[1], 'indicator':'incorrect', 'id':f'item{id}'})
+                used.append(attempt[1])
+                id+=1
+
+    else:
+        question = "What would the output be from the following snippet?"
+        code+= pair[1]
+        items = [{'item':"$"+pair[0], 'indicator':'correct', 'id':'item1'}]
+        used, id = [pair[0]], 2
+        while len(items)!=4:
+            attempt = choice(pairs)
+            if attempt[0] not in used:
+                items.append({'item':"$"+attempt[0], 'indicator':'incorrect', 'id':f'item{id}'})
+                used.append(attempt[0])
+                id+=1
+    shuffle(items)
+    return [{'text':question}, {'code':code}], items
 # question ideas:
 # class vs instance variables code outcomes
 
