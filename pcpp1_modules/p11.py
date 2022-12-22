@@ -58,6 +58,7 @@ questions = {
         ),
         'fillers': (),
     },
+    'object_types': object_types,
 
     
 }
