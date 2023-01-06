@@ -56,38 +56,135 @@ def object_types():
     def move(self):
         return print('going')
 
-{subject_dict['instance_name']} = ({subject_dict["str_var_name"]}, {subject_dict["str_var"]}, {subject_dict["int_var_name"]}={subject_dict["int_var"]})\n"""
+{subject_dict['instance_name']} = ({subject_dict["str_var_name"]} = '{subject_dict["str_var"]}', {subject_dict["int_var_name"]}={subject_dict["int_var"]})\n"""
 
     pair = choice(pairs)
     if randint(0,1)==0: 
-        question = f"Which line of code would you need to add to output:\n{pair[0]}"
-        items = [{'item':"$"+pair[1], 'indicator':'correct', 'id':'item1'}]
+        question = f"Which line of code would you need to add to the code below to output:\n{pair[0]}"
+        items = [{'code':pair[1], 'indicator':'correct', 'id':'item1'}]
         used, id = [pair[1]], 2
         while len(items)!=4:
             attempt = choice(pairs)
             if attempt[1] not in used:
-                items.append({'item':"$"+attempt[1], 'indicator':'incorrect', 'id':f'item{id}'})
+                items.append({'code':attempt[1], 'indicator':'incorrect', 'id':f'item{id}'})
                 used.append(attempt[1])
                 id+=1
 
     else:
         question = "What would the output be from the following snippet?"
         code+= pair[1]
-        items = [{'item':"$"+pair[0], 'indicator':'correct', 'id':'item1'}]
+        items = [{'code':pair[0], 'indicator':'correct', 'id':'item1'}]
         used, id = [pair[0]], 2
         while len(items)!=4:
             attempt = choice(pairs)
             if attempt[0] not in used:
-                items.append({'item':"$"+attempt[0], 'indicator':'incorrect', 'id':f'item{id}'})
+                items.append({'code':attempt[0], 'indicator':'incorrect', 'id':f'item{id}'})
                 used.append(attempt[0])
                 id+=1
     shuffle(items)
     return [{'text':question}, {'code':code}], items
+
+def class_info():
+    """
+    # first three classes may have print info or not print info
+    # final class inherits from two of previous classes
+
+
+    # if first inheriting class is first, 
+    result always
+TypeError: Cannot create a consistent method resolution
+order (MRO) for bases A, C
+
+    else:
+        if no inheriting classes have info, 
+AttributeError: 'D' object has no attribute 'info'
+
+else: 
+    if first in list has info print that
+    if second in list has info print that. 
+    """
+    numbers = []
+    for x in range(4):
+        number = randint(97, 122)
+        while number in numbers:
+            number = randint(97, 122)
+        numbers.append(number)
+
+    letters = []
+    for x in range(4):
+        letters.append(chr(numbers[x-1]-32))
+    
+    class_dict = {
+        1:letters[0],
+        2:letters[1],
+        3:letters[2],
+        4:letters[3],
+    }
+    info_dict = {
+        letters[0]:'pass' if randint(0,1)==0 else f"def info(self):\n\tprint('Class {letters[0]}')",
+        letters[1]:'pass' if randint(0,1)==0 else f"def info(self):\n\tprint('Class {letters[1]}')",
+        letters[2]:'pass' if randint(0,1)==0 else f"def info(self):\n\tprint('Class {letters[2]}')",
+    }
+
+    inhertantce_letters = letters[:3]
+    shuffle(inhertantce_letters)
+    
+    inheritance_dict = {
+        1:inhertantce_letters[0],
+        2:inhertantce_letters[1]
+    }
+
+    code = f"""
+class {class_dict[1]}:
+    {info_dict[class_dict[1]]}
+
+class {class_dict[2]}({class_dict[1]}):
+    {info_dict[class_dict[2]]}
+
+class {class_dict[3]}({class_dict[1]}):
+    {info_dict[class_dict[3]]}
+
+class {class_dict[4]}({inheritance_dict[1]},{inheritance_dict[2]}):
+    pass
+
+{class_dict[4]}().info()"""
+
+    if inheritance_dict[1] == class_dict[1]:
+        correct = f"TypeError: Cannot create a consistent method resolution order (MRO) for bases {inheritance_dict[1]}, {inheritance_dict[2]}"
+    elif (info_dict[inheritance_dict[1]] == 'pass') & (info_dict[inheritance_dict[2]] == 'pass'):
+        correct = f"AttributeError: '{letters[3]}' object has no attribute 'info'"
+    elif info_dict[inheritance_dict[1]] != 'pass':
+        correct = f"class {inheritance_dict[1]}"
+    elif info_dict[inheritance_dict[2]] != 'pass':
+        correct = f"class {inheritance_dict[2]}"
+
+    items = [{'code':correct, 'indicator':'correct', 'id':'item1'}]
+    used = [correct]
+    id = 2
+
+    while len(items)!=4:
+        option=randint(0,4)
+        if option == 0:
+            attempt = f"TypeError: Cannot create a consistent method resolution order (MRO) for bases {choice(list(class_dict.values()))}, {choice(list(class_dict.values()))}"
+        elif option == 1:
+            attempt = f"AttributeError: '{choice(letters)}' object has no attribute 'info'"
+        else:
+            attempt = f"class {choice(letters)}"
+        
+        if attempt not in used:
+            items.append({'code':attempt, 'indicator':'incorrect', 'id':f'item{id}'})
+            used.append(attempt)
+            id+=1
+
+    return [{'text':'What is the output from the following code?'},{'code':code}], items
+
+
+    """ 
 # question ideas:
 # class vs instance variables code outcomes
 
 # magic method code outcome
-"""
+
 class Person:
     def __init__(self, weight, age, salary):
         self.weight = weight

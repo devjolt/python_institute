@@ -59,6 +59,7 @@ questions = {
         'fillers': (),
     },
     'object_types': object_types,
+    'class_info':class_info,
 
     
 }
