@@ -9,6 +9,7 @@ import re
 import time
 import traceback
 
+from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
 
@@ -138,6 +139,9 @@ class RandomModuleView(TemplateView):
             template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
         
         # Put question list and items in context dictionary.
+        context['url'] = self.request.path
+        context['module'] = module_object_to_name_dict[module]
+        context['key'] = key
         context['question'], context['items'] = template_question, items
         context['question_type'] = question_type # Question type may tell the template how to handle the question if needed.
         context['question_description'] = key # Question key, acting as a question description
@@ -217,16 +221,15 @@ def specific_question_view(request, module_str, question):
     slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
     module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
     
-    print('actual module:',str(module)) # the only way we know what the module is
-    print('module_str',module_str) # just checking we have the module code too
-    print('key:',key) # and seeing what the key is
-
     question_type = 'multi-choice' # always multi choice at the moment? Not sure though 10/09/22
 
     template_question, items = generate_template_question_and_items(module, key) # check that below logic matches with function used...
 
     # Put question list and items in context dictionary.
     context={}
+    context['url'] = request.path
+    context['module'] = module_object_to_name_dict[module]
+    context['key'] = key
     context['question'], context['items'] = template_question, items
     context['question_type'] = question_type # Question type may tell the template how to handle the question if needed.
     context['question_description'] = key # Question key, acting as a question description
@@ -252,5 +255,17 @@ def test_question(request):
         }
     return render(request, 'pcep/multichoice.html', context)
 
-
-
+def log_problem(request):
+    # post question details through
+    # problem should include module, question key, question text and answer text
+    # should get saved to a log
+    other = request.POST.get('other')
+    problem = request.POST.get('problem') if other == "" else other
+    from_url = request.POST.get('url')
+    module = request.POST.get('module')
+    key = request.POST.get('key')
+    question_type = request.POST.get('question_type')
+    question = request.POST.get('question')
+    items = request.POST.get('items')
+    logging.error(f"PI {problem} {module}, {key} ({question_type}): {question} - {items}")
+    return HttpResponseRedirect(from_url)

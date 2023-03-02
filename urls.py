@@ -43,5 +43,6 @@ urlpatterns = [
     path('pcep/', include(pcep_patterns)),
     path('pcap/', include(pcap_patterns)),
     path('pcpp1/', include(pcpp1_patterns)),
-    path('pcpp2/', include(pcpp2_patterns)),   
+    path('pcpp2/', include(pcpp2_patterns)),
+    path('log_problem/', log_problem, name='log_problem'),
 ]
