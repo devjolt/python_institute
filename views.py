@@ -15,6 +15,7 @@ from django.shortcuts import render
 
 from .pcep_modules import e1, e2, e3, e4
 from .pcap_modules import a1, a2, a3, a4
+from .pcat_modules import t1
 from .pcpp1_modules import p11, p12, p13, p14, p15
 #from .pcpp2_modules import p21, p22, p23, p24,
 
@@ -22,7 +23,7 @@ from .utilities import utilities as utl
 import question_logic as ql # doesn't exist yet
 from question_logic.all import * # doesn't exist yet
 
-logging.basicConfig(filename=Path('question.log'), encoding='utf-8', level=logging.ERROR)
+logging.basicConfig(filename=Path('python_institute.log'), encoding='utf-8', level=logging.ERROR)
 
 def populate_question_logic_dict()->dict:
     """ Used by generate_template_question_and_items(module, key)
@@ -83,10 +84,10 @@ def generate_template_question_and_items(module:'object containing questions dic
         
         return None, None
     """
-
 module_object_to_name_dict = {
+    t1:'First testing module',
     p11:'OOP', 
-    p12:'Networking?', 
+    p12:'Networking', 
     p13:'GUIs', 
     p14:'PEP',
     p15:'Files'
@@ -107,6 +108,9 @@ class PCPP1View(TemplateView):
 
 class PCPP2View(TemplateView):
     template_name='python_institute/pcpp2.html'
+
+class PCATView(TemplateView):
+    template_name='python_institute/pcat.html'
 
 class RandomModuleView(TemplateView):
     modules = () # set this in views

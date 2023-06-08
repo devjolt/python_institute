@@ -38,11 +38,18 @@ pcpp2_patterns = [
     #path('random/', RandomModuleView.as_view(modules = (p21, p22, p23, p24)), name = 'random_pcpp2'),
 ]
 
+pcat_patterns = [
+    path('', PCATView.as_view(), name='pcat_home'),
+    path('random/', RandomModuleView.as_view(modules = (t1,)), name = 'random_pcat1'),
+    path('t1/', RandomModuleView.as_view(modules = (t1,)), name = 'OOP'),
+]
+
 urlpatterns = [
     path('', HomeView.as_view(), name='python_institute_home'),
     path('pcep/', include(pcep_patterns)),
     path('pcap/', include(pcap_patterns)),
     path('pcpp1/', include(pcpp1_patterns)),
     path('pcpp2/', include(pcpp2_patterns)),
+    path('pcat/', include(pcat_patterns)),
     path('log_problem/', log_problem, name='log_problem'),
 ]

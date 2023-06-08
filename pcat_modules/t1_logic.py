@@ -23,7 +23,7 @@ def object_types():
         "Person":{
             "instance_name": "homosapien",
             "str_var_name": "name",
-            "str_var": choice(['Leslie', 'Ron', 'Terry', 'Rob', 'Sam', 'Rudager', 'Rasputin', 'Vlad', 'Bob', 'Chelsea', 'Jerry', 'Pat']),
+            "str_var": choice(['Leslie', 'Ron', 'Terry', 'Rob', 'Sam', 'Rudager']),
             "int_var_name": "age",
             "int_var": randint(1, 99)
             },
@@ -56,7 +56,7 @@ def object_types():
     def move(self):
         return print('going')
 
-{subject_dict['instance_name']} = {subject}({subject_dict["str_var_name"]} = '{subject_dict["str_var"]}', {subject_dict["int_var_name"]}={subject_dict["int_var"]})\n"""
+{subject_dict['instance_name']} = ({subject_dict["str_var_name"]} = '{subject_dict["str_var"]}', {subject_dict["int_var_name"]}={subject_dict["int_var"]})\n"""
 
     pair = choice(pairs)
     if randint(0,1)==0: 
@@ -177,41 +177,6 @@ class {class_dict[4]}({inheritance_dict[1]},{inheritance_dict[2]}):
             id+=1
 
     return [{'text':'What is the output from the following code?'},{'code':code}], items
-
-
-def class_methods():
-    # outcomes
-    # @classmethod included -> 
-    # number_of_instances = randint(0, 3)
-    # position
-    # 
-    # TypeError: Example.get_internal() missing 1 required positional argument: 'cls'
-    # TypeError: Example.get_internal() missing 1 required positional argument: 'self'
-    # NameError: name 'cls' is not defined
-    code = """class Example:
-        __internal_counter = 0
-
-        def __init__(self, value):
-            Example.__internal_counter +=1
-    
-    """
-    """
-    random_tf = (True, False)
-    class_method = choice(random_tf)
-
-
-        @classmethod
-        def get_internal(cls):
-            return f'# of objects: {cls.__internal_counter}'
-
-    example1 = Example(10)
-    example2 = Example(99)
-    print(Example.get_internal())
-
-    """
-
-
-    pass
 
 
     """ 

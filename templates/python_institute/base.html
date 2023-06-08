@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name='viewport' content='width=device-width, intitial-scale=1.0'>
-        <title>PCEP Practise</title>
+        <title>PI Practise</title>
         <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -56,11 +56,11 @@
             }
 
             .header{
-                background-color: var(--first-light);
-                display: grid;
-                grid-template-columns: auto 80% auto;
+                background-color: var(--third-light);
+                display: flex;
+                flex-wrap: wrap;
                 text-align: center; 
-                height:10vh;
+                height:max-content;
             }
             .header-logo{
                 width:min-content;
@@ -87,11 +87,13 @@
             .main{
                 background-image: linear-gradient(to bottom right, var(--second-light), var(--first-dark));
                 padding:1%;
-                height:90vh;
+                height:max-content;
             }
+            
             .main-inner{
                 margin:5vw;
-                margin-top:1vw;
+                margin-top:1vh;
+                margin-bottom:1vh;
                 background-color:var(--third-light);
                 box-shadow: 0px 20px 50px -10px var(black);          
             }
@@ -122,7 +124,7 @@
             }
 
             .inactive{
-                background-color: var(--first-light);
+                background-color: silver;
             }
 
             .active{
@@ -329,7 +331,18 @@
     </head>
 
     <body>
-        <h1>Python Institute Certified Entry Level Programmer</h1>
+        <header class = 'header'>
+            <h1>Python Institute Certification Practise</h1>
+            <div style="margin-top:auto; margin-bottom:auto;margin-right:10px">Paypal me a<br>drink x_x -></div>
+            <form style="margin-top:auto; margin-bottom:auto" action="https://www.paypal.com/donate" method="post" target="_blank">
+                <input type="hidden" name="business" value="T656X4MSATYTA" />
+                <input type="hidden" name="no_recurring" value="1" />
+                <input type="hidden" name="item_name" value="It's free, but you can buy me a drink if you find it useful ^_^" />
+                <input type="hidden" name="currency_code" value="GBP" />
+                <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="...or a kebab." alt="Donate with PayPal button"/>
+                <img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+            </form>
+        </header>
         <!--
         <div class = 'header'>
             <div class = 'header-logo'>CISMP Practise</div>

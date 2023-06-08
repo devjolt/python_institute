@@ -1,4 +1,4 @@
-from .p11_logic import *
+from .t1_logic import *
 
 questions = {
     'Classes, instances, attributes and methods': {
@@ -14,9 +14,6 @@ questions = {
             ('a type', "the class that was used to instantiate an object"),
             ('a class variable',('defined within class construction', 'available before an instance is created','accessed via CLASS.VARIABLE_NAME and OBJECT.VARIABLE_NAME', 'not listed in OBJECT.__dict__')),
             ('an instance variable',('exists only when it is explicitly created and added to an object','added during objects initialization', 'will not interfere with a similar variable in another object', 'accessed via OBJECT.VARIABLE_NAME', 'listed in OBJECT.__dict__')),        
-            ('an instance method',('performs operations on instances','perform operations on attributes of an instance', 'will not interfere with a similar variable in another object')),
-            ('self',('the first parameter of an instance method','allows you to refer to an existing instance')),
-        
         ),
         'fillers': (),
     },
@@ -58,18 +55,13 @@ questions = {
             ('object retrospection',('__instancecheck__', '__subclasscheck__')),
             ('object attribute access', ('__getattr__', '__getattribute__', '__setattr__', '__delattr__')),
             ('allowing access to containers', ('__len__', '__getitem__', '__setitem__', '__delitem__', '__iter__', '__contains__')),
-            
-        
-        ),  
+        ),
         'fillers': (),
     },
     'object_types': object_types,
     'class_info':class_info,
 
     
-
-
-
 }
 """
     'Polymorphism, ': {
