@@ -262,9 +262,25 @@
             .text{
                 padding:20px;
             }
-            .code-container{
-                padding:20px;
+            
+            .code-container-wrapper{ 
+                width:100%;
             }
+
+            .code-container{
+                width:90%;
+                padding:20px;
+                overflow-x:scroll;
+            }
+
+            pre{
+                width:100%;
+            }
+
+            .prettyprint {
+                border: none !important;
+            }
+
             .button-div{
             }
             /*next and question buttons*/
@@ -333,7 +349,7 @@
     <body>
         <header class = 'header'>
             <h1>Python Institute Certification Practise</h1>
-            <div style="margin-top:auto; margin-bottom:auto;margin-right:10px">Paypal me a<br>drink x_x -></div>
+            <div style="margin-top:auto; margin-bottom:auto;margin-right:10px">Paypal me a<br>drink -></div>
             <form style="margin-top:auto; margin-bottom:auto" action="https://www.paypal.com/donate" method="post" target="_blank">
                 <input type="hidden" name="business" value="T656X4MSATYTA" />
                 <input type="hidden" name="no_recurring" value="1" />

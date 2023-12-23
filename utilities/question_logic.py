@@ -407,6 +407,8 @@ def make_items_question_from_correct_incorrect(resource):
     return template_question, items
 
 def make_items_question_from_pairs(resource):
+    print("in question logic")
+
     raw_question_0 = resource['question_with_0']
     raw_question_1 = resource['question_with_1']
     pairs, fillers = resource['pairs'], resource['fillers']

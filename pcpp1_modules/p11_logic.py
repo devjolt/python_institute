@@ -178,6 +178,106 @@ class {class_dict[4]}({inheritance_dict[1]},{inheritance_dict[2]}):
 
     return [{'text':'What is the output from the following code?'},{'code':code}], items
 
+def instance_vs_class_variables():
+    """
+    Question types:
+    1. What line of code could be added to:
+    2. What impact would the addition of the following line of code have?
+    """
+    code = """class A:
+    var = "some_value"
+ 
+a = A()
+"""
+    pairs = (
+        ("change the value of the class variable","A.var = 'another_value'"), 
+        ("create an instance variable","a.var = 'another_value'"),
+        ("display the value of the class variable","print(A.var)"),
+        ("create a new instance","b = A()"),
+        ("create a new class variable","A.z = 'another_value'"),
+        ("diplay an empty dictionary","print(a.__dict__)"),
+        ("would show all attributes of the class","print(A.__dict__)"),
+    )
+
+    pair = choice(pairs)
+    if randint(0,1)==0: # Which snippet would
+        question = f"Which snippet would {pair[0]} in the following code:"
+        if randint(0,3)==0: # correct answer is none of the above
+            used = ["# None of the above", pair[1]]
+        else:
+            used = [pair[1]]
+        incorrect = [item[1] for item in pairs if item not in used]
+        
+        items = [{'code':used[0], 'indicator':'correct', 'id':'item1'}]
+        while len(items)!=4:
+            item = choice(incorrect)
+            if item in used:
+                continue
+            used.append(item)
+            items.append({'code':item, 'indicator':'incorrect', 'id':f'item{len(items)+1}'})
+    else:
+        question = f"What would be the outcome of the following code?"
+        code+=pair[1]
+        if randint(0,3)==0: # correct answer is none of the above
+            used = ["# None of the above", pair[0]]
+        else:
+            used = [pair[0]]
+        incorrect = [item[0] for item in pairs if item not in used]
+        
+        items = [{'item':used[0], 'indicator':'correct', 'id':'item1'}]
+        while len(items)!=4:
+            item = choice(incorrect)
+            if item in used:
+                continue
+            used.append(item)
+            items.append({'item':item, 'indicator':'incorrect', 'id':f'item{len(items)+1}'})
+    
+    return [{'text':question},{'code':code}], items
+
+"""
+def abstract_classes_outcome():
+    valid = (
+        (
+            'import abc',
+            f"class BluePrint(abc.ABC):",
+            '   @abc.abstractmethod',
+            '   def hello(self):',
+            '       pass',
+            'class GreenField(BluePrint):',
+            '   def hello(self):',
+            '       print("Welcome to Green Field!")',
+            'gf = GreenField()',
+            'gf.hello()',
+        ),
+        'The code will execute without errors, a class using the abstract class'
+    )
+    invalid = (
+        (
+            (f'import {choice(["ABC", "abstractclass", "abstractbaseclass"])}','$ModuleNotFoundError'),
+            (('import',),'$SyntaxError'),
+            (('from abc import class',),'$ImportError'),
+        ),(
+            ((f"class BluePrint({choice(['abc.abc', 'ABC', 'abc.abstractclass'])}):"),'$NameError'),
+            ((f"class BluePrint():",),'The code will execute without error, but BluePrint will not have acted as an abstract class'),
+        ),(
+            (('    @abc',),"$TypeError: 'module is not callable'"),
+            (('    @ABC',),'$NameError'),
+            (('    @abc.abstract',),'AttributeError'),   
+        ),(
+            (('    def hello(self)',),'$syntax error'),
+        ),(
+            (('',),'$syntax error'),
+        ),(
+            (('class GreenField(abc):',),'$TypeError'),
+        ),
+            (('    pass',),'$TypeError'),
+    )
+    
+    items, code = ql.make_outcome_items_code(valid, invalid)
+    question = [{'text':'What will be the outcome of the following code?'}]
+    question.append({'code':code})
+    return question, items 
+"""
 
 def class_methods():
     # outcomes

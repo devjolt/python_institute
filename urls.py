@@ -24,7 +24,7 @@ pcap_patterns = [
 
 pcpp1_patterns = [    
     path('', PCPP1View.as_view(), name='pcpp1_home'),
-    path('random/', RandomModuleView.as_view(modules = (p11, p12, p13, p14,)), name = 'random_pcpp1'),
+    path('random/', RandomModuleView.as_view(modules = (p11, p12, p13, p14, p15)), name = 'random_pcpp1'),
     path('p11/', RandomModuleView.as_view(modules = (p11,)), name = 'OOP'),
     path('p12/', RandomModuleView.as_view(modules = (p12,)), name = 'PEP'),
     path('p13/', RandomModuleView.as_view(modules = (p13,)), name = 'GUI'),

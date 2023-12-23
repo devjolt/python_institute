@@ -83,7 +83,9 @@
                 <div class='text'>{{line.text}}</div>
             {% elif line.code != None %}
                 <div class = 'code-container'>
-                    <pre class="prettyprint">{{line.code}}</pre>
+                    <div class = 'code-container-wrapper'>
+                        <pre class="prettyprint">{{line.code}}</pre>
+                    </div>
                 </div>
             {% endif %}
         {% endfor %}
@@ -129,7 +131,9 @@
             {% endif %}
             {% if thing.code != None %}
                 <div class = 'code-container'>
-                    <pre class="prettyprint">{{thing.code}}</pre>
+                    <div class = 'code-container-wrapper'>
+                        <pre class="prettyprint">{{thing.code}}</pre>
+                    </div>
                 </div>
             {% endif %}
         </div>
