@@ -1,0 +1,63 @@
+{% extends 'cismp/base.html' %}
+
+{% block content %}
+<div class='home-inner'>
+    <div class =  'introduction'>
+        <div>This free resource generates random practise questions for the CISMP exam.</div>
+        
+        <div>Features:</div>
+        <ul>
+            <li>Unlimited sessions</li>
+            <li>Instant feedback</li>
+            <li>Practise specific modules</li>
+            <li>No signup or login</li>
+        </ul>
+    <strong>Disclaimer:</strong> I built this to help myself pass the exam successfully in 2022, and stopped maintaining it soon after. I (and others on my course) found it useful for preparing and building confidence, but it's no substitute for studying; the exam tests your understanding as well as your knowledge. Whilst most content is accurate, buggy questions are out there!
+    </div>
+    </div>
+    <hr>
+    <h3>Select a module (opens in a new tab)</h3>
+
+    <div class = 'module-container'>
+        
+        
+        <a class='module-button' href='/cismp/information_security_principles' target="_blank">
+            <div class = 'module active'>Module 1:<br>Information Security Principles</div>
+        </a>
+
+        <a class='module-button' href='/cismp/information_risk' target="_blank">
+            <div class = 'module active'>Module 2:<br>Information risk</div>
+        </a>
+
+        <a class='module-button' href='/cismp/information_security_frameworks' target="_blank">
+            <div class = 'module active'>Module 3:<br>Information Security Framework</div>
+        </a>
+
+        <a class='module-button' href='/cismp/security_life_cycles' target="_blank">
+            <div class = 'module active'>Module 4:<br>Security Life Cycles</div>
+        </a>
+
+        <a class='module-button' href='/cismp/procedural_and_people_security_controls' target="_blank">
+            <div class = 'module active'>Module 5:<br>Procedural and People Security Controls (under development)</div>
+        </a>
+
+        <a class='module-button' href='/cismp/technical_security_controls' target="_blank">
+            <div class = 'module active'>Module 6:<br>Technical Security Controls</div>
+        </a>
+        <a class='module-button' href='/cismp/physical_and_environmental_security' target="_blank">
+            <div class = 'module active'>Module 7:<br>Physical and Environmental Security</div>
+        </a>
+        <a class='module-button' href='/cismp/disaster_recovery_and_business_continuity_management' target="_blank">
+            <div class = 'module active'>Module 8:<br>Disaster Recovery and Business Continuity Management</div>
+        </a>
+        <a class='module-button' href='/cismp/cryptography' target="_blank">
+            <div class = 'module active'>Module 9:<br>Cryptography</div>
+        </a>
+        <a class='module-button' href='/cismp/random/' target="_blank">
+            <div class = 'module active'>All CISMP Modules</div>
+        </a>
+    </div>
+</div>
+
+
+{% endblock %}

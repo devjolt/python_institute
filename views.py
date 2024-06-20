@@ -1,3 +1,11 @@
+"""
+Test with cismp
+Design default set of templates
+DONE Differentiate different question logs
+DONE Enable this file to differentiate between different modules when selecting templates
+"""
+
+
 import inspect
 import logging
 import os
@@ -18,15 +26,27 @@ from .pcap_modules import a1, a2, a3, a4
 from .pcat_modules import t1
 from .pcpp1_modules import p11, p12, p13, p14, p15
 #from .pcpp2_modules import p21, p22, p23, p24,
+from .cismp_modules import _1, _2, _3, _4, _5, _6, _7, _8, _9 
+cismp_1, cismp_2, cismp_3, cismp_4, cismp_5, cismp_6, cismp_7, cismp_8, cismp_9 = _1, _2, _3, _4, _5, _6, _7, _8, _9 
 
 from .utilities import utilities as utl
 import question_logic as ql # doesn't exist yet
 from question_logic.all import * # doesn't exist yet
 
-logging.basicConfig(filename=Path('python_institute.log'), encoding='utf-8', level=logging.ERROR)
+
+main_logger = logging.getLogger()
+main_logger.setLevel(logging.DEBUG)
+main_logger_file_handler = logging.FileHandler('python_institute.log')
+main_logger_file_handler.setLevel(logging.ERROR)
+main_logger.addHandler(main_logger_file_handler)
+#logging.basicConfig(filename=Path('python_institute.log'), encoding='utf-8', level=logging.ERROR)
+
+
 
 def populate_question_logic_dict()->dict:
-    """ Used by generate_template_question_and_items(module, key)
+    """ Used by generate_template_question_and_items(module, key) 
+        Standard accross all modules
+        Question... why does this need to be in THIS folder?
     """
     # make the path appropriately depending on OS
     if platform.system() == 'Windows':
@@ -84,17 +104,45 @@ def generate_template_question_and_items(module:'object containing questions dic
         
         return None, None
     """
+
+
 module_object_to_name_dict = {
     t1:'First testing module',
     p11:'OOP', 
     p12:'Networking', 
     p13:'GUIs', 
     p14:'PEP',
-    p15:'Files'
+    p15:'Files',
+    cismp_1:"Principles",
+    cismp_2:"Information risk",
+    cismp_3:"Frameworks",
+    cismp_4:"Life cycles",
+    cismp_5:"Physical controls",
+    cismp_6:"Technical controls",
+    cismp_7:"Physical security",
+    cismp_8:"Disaster recovery",
+    cismp_9:"Cryptography"
+}
+
+module_str_to_object_dict = {
+    'p11':p11, 
+    'p12':p12, 
+    'p13':p13, 
+    'p14':p14,
+    'p15':p15,
+    'cismp_1':cismp_1,
+    'cismp_2':cismp_2,
+    'cismp_3':cismp_3,
+    'cismp_4':cismp_4,
+    'cismp_5':cismp_5,
+    'cismp_6':cismp_6,
+    'cismp_7':cismp_7,
+    'cismp_8':cismp_8,
+    'cismp_9':cismp_9
 }
 
 
-class HomeView(TemplateView):
+class PIHomeView(TemplateView):
     template_name = 'python_institute/home.html'
 
 class PCEPView(TemplateView):
@@ -112,9 +160,13 @@ class PCPP2View(TemplateView):
 class PCATView(TemplateView):
     template_name='python_institute/pcat.html'
 
+class CISMPHomeView(TemplateView):
+    template_name = 'cismp/home.html'
+
+
 class RandomModuleView(TemplateView):
     modules = () # set this in views
-    template_name = 'python_institute/multichoice.html'
+    template_name = 'python_institute/multichoice.html' # How to differentiate this for different modules...
     
     def get_context_data(self, **kwargs):
         start = time.time() # Timing how long all this takes. We'll stop this timer later
@@ -124,8 +176,9 @@ class RandomModuleView(TemplateView):
         template_question = None
         while template_question is None:
             module = choice(self.modules)
-            # Each module contains a dictionary called questions and we're picking one of the questions in that dictionary. 
-            key = choice(tuple(module.questions.keys()))#from module, get key
+            # Each module contains a dictionary called questions.
+            # we're picking one of the questions in that dictionary. 
+            key = choice(tuple(module.questions.keys())) #from module, get key
             
             slashes = '\\\\' if platform.system() == 'Windows' else '/'# if running in windows, split with \\
             module_str=str(module).split(slashes)[-1][:-5] # and assuming anything else is Linux / 
@@ -204,17 +257,10 @@ class RandomModuleView(TemplateView):
         return context
 
         """
-
-def specific_question_view(request, module_str, question):
+class CismpRandomModuleView(RandomModuleView): 
+    template_name = 'cismp/multichoice.html' # How to differentiate this for different modules...
     
-    module_str_to_object_dict = {
-        'p11':p11, 
-        'p12':p12, 
-        'p13':p13, 
-        'p14':p14,
-        'p15':p15
-    }
-
+def specific_question_view(request, module_str, question):
     start = time.time() # Timing how long all this takes. We'll stop this timer later
     
     module = module_str_to_object_dict[module_str]
@@ -266,10 +312,18 @@ def log_problem(request):
     other = request.POST.get('other')
     problem = request.POST.get('problem') if other == "" else other
     from_url = request.POST.get('url')
+    super_module = from_url.split('/')[1]
     module = request.POST.get('module')
     key = request.POST.get('key')
     question_type = request.POST.get('question_type')
     question = request.POST.get('question')
     items = request.POST.get('items')
-    logging.error(f"PI {problem} {module}, {key} ({question_type}): {question} - {items}")
+
+    user_problem_logger = logging.getLogger()
+    user_problem_logger.setLevel(logging.ERROR)
+    user_problem_logger_file_handler = logging.FileHandler(f'{super_module}_user_reported.log')
+    user_problem_logger_file_handler.setLevel(logging.ERROR)
+    user_problem_logger.addHandler(user_problem_logger_file_handler)
+    #logging.basicConfig(filename=Path(f'{super_module}_user_reported.log'), encoding='utf-8', level=logging.ERROR)
+    user_problem_logger.error(f"URL:{from_url}; Module:{module}; Question key:{key}\nIssue:{problem}; Question details:({question_type}): {question} - {items}")
     return HttpResponseRedirect(from_url)

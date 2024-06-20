@@ -7,6 +7,9 @@ from .pcep_modules import e1, e2, e3, e4
 from .pcap_modules import a1, a2, a3, a4
 from .pcpp1_modules import p11, p12, p13, p14
 #from .pcpp2_modules import p21, p22, p23, p24
+from .cismp_modules import _1, _2, _3, _4, _5, _6, _7, _8, _9 
+cismp_1, cismp_2, cismp_3, cismp_4, cismp_5, cismp_6, cismp_7, cismp_8, cismp_9  = _1, _2, _3, _4, _5, _6, _7, _8, _9 
+
 
 pcep_patterns = [
     path('', PCEPView.as_view(), name='pcep_home'),
@@ -44,12 +47,29 @@ pcat_patterns = [
     path('t1/', RandomModuleView.as_view(modules = (t1,)), name = 'OOP'),
 ]
 
+cismp_patterns = [
+    path('', CISMPHomeView.as_view(), name='cismp_home'),
+    path('random/', CismpRandomModuleView.as_view(modules = (cismp_1, cismp_2, cismp_3, cismp_4, cismp_5, cismp_6, cismp_7, cismp_8, cismp_9)), name = 'all_random'),
+    path('information_security_principles/', RandomModuleView.as_view(modules = (cismp_1,)), name = 'information_security_principles'),
+    path('information_risk/', RandomModuleView.as_view(modules = (cismp_2,)), name = 'information_risk'),
+    path('information_security_frameworks/', RandomModuleView.as_view(modules = (cismp_3,)), name = 'information_security_frameworks'),
+    path('security_life_cycles/', RandomModuleView.as_view(modules = (cismp_4,)), name = 'security_life_cycles'),
+    path('procedural_and_people_security_controls/', RandomModuleView.as_view(modules = (cismp_5,)), name = 'procedural_and_people_security_controls'),
+    path('technical_security_controls/', RandomModuleView.as_view(modules = (cismp_6,)), name = 'technical_security_controls'),
+    path('physical_and_environmental_security/', RandomModuleView.as_view(modules = (cismp_7,)), name = 'physical_and_environmental_security'),
+    path('disaster_recovery_and_business_continuity_management/', RandomModuleView.as_view(modules = (cismp_8,)), name = 'disaster_recovery_and_business_continuity_management'),
+    path('cryptography/', RandomModuleView.as_view(modules = (cismp_9,)), name = 'cryptography'),
+    path('log_problem/', log_problem, name='log_problem'),
+] 
+
 urlpatterns = [
-    path('', HomeView.as_view(), name='python_institute_home'),
+    path('pi/', PIHomeView.as_view(), name='python_institute_home'),
     path('pcep/', include(pcep_patterns)),
     path('pcap/', include(pcap_patterns)),
     path('pcpp1/', include(pcpp1_patterns)),
     path('pcpp2/', include(pcpp2_patterns)),
     path('pcat/', include(pcat_patterns)),
+
+    path('cismp/', include(cismp_patterns)),
     path('log_problem/', log_problem, name='log_problem'),
 ]
