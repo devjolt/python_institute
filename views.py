@@ -1,10 +1,13 @@
 """
-Test with cismp
 Design default set of templates
+Add ceh
+Add comptia
+Add sigs
+DONE redesign wnole site for new structure
+DONE Test with cismp
 DONE Differentiate different question logs
 DONE Enable this file to differentiate between different modules when selecting templates
 """
-
 
 import inspect
 import logging
@@ -28,6 +31,8 @@ from .pcpp1_modules import p11, p12, p13, p14, p15
 #from .pcpp2_modules import p21, p22, p23, p24,
 from .cismp_modules import _1, _2, _3, _4, _5, _6, _7, _8, _9 
 cismp_1, cismp_2, cismp_3, cismp_4, cismp_5, cismp_6, cismp_7, cismp_8, cismp_9 = _1, _2, _3, _4, _5, _6, _7, _8, _9 
+
+from .jimmy_modules import _1_antennas
 
 from .utilities import utilities as utl
 import question_logic as ql # doesn't exist yet
@@ -121,7 +126,8 @@ module_object_to_name_dict = {
     cismp_6:"Technical controls",
     cismp_7:"Physical security",
     cismp_8:"Disaster recovery",
-    cismp_9:"Cryptography"
+    cismp_9:"Cryptography",
+    _1_antennas:"Antennas",
 }
 
 module_str_to_object_dict = {
@@ -138,7 +144,8 @@ module_str_to_object_dict = {
     'cismp_6':cismp_6,
     'cismp_7':cismp_7,
     'cismp_8':cismp_8,
-    'cismp_9':cismp_9
+    'cismp_9':cismp_9, 
+    '_1_antennas':_1_antennas,
 }
 
 
@@ -159,9 +166,6 @@ class PCPP2View(TemplateView):
 
 class PCATView(TemplateView):
     template_name='python_institute/pcat.html'
-
-class CISMPHomeView(TemplateView):
-    template_name = 'cismp/home.html'
 
 
 class RandomModuleView(TemplateView):
@@ -257,9 +261,20 @@ class RandomModuleView(TemplateView):
         return context
 
         """
+class CISMPHomeView(TemplateView):
+    template_name = 'cismp/home.html'
+
 class CismpRandomModuleView(RandomModuleView): 
     template_name = 'cismp/multichoice.html' # How to differentiate this for different modules...
-    
+
+
+class JimmyHomeView(TemplateView):
+    template_name = 'default/home.html'
+
+class JimmyRandomModuleView(RandomModuleView): 
+    template_name = 'default/multichoice.html' # How to differentiate this for different modules...
+
+
 def specific_question_view(request, module_str, question):
     start = time.time() # Timing how long all this takes. We'll stop this timer later
     

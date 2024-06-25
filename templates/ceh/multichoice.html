@@ -1,10 +1,8 @@
-{% extends 'cismp/base.html' %}
+{% extends 'ceh/base.html' %}
 
 {% block content %}
 
 <script>
-    var current_url = window.location.href;
-    console.log(current_url)
     //Cookies dealing with time
     console.log(getCookie("time"));
     var start = Date.now()
@@ -56,7 +54,7 @@
 
 <div class = 'qtop'>
     <div class='stats-grid'>
-        <div class='reset' onclick=reset()>Reset stats</div>
+        <div class='reset question-page-button' onclick=reset()>Reset stats</div>
         <div class = 'timer'>
             <span id="minutes"></span>:<span id="seconds"></span>
         </div>
@@ -89,29 +87,6 @@
                 </div>
             {% endif %}
         {% endfor %}
-        <br><br>
-        <details>
-            <summary>Report a problem with this question</summary>
-            <br>
-            <form action="/cismp/log_problem" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="url" value={{url}}>
-                <input type="hidden" name="module" value="{{module}}">
-                <input type="hidden" name="key" value="{{key}}">
-                <input type="hidden" name="question_type" value="{{question_type}}">
-                <input type="hidden" name="question" value="{{question}}">
-                <input type="hidden" name="items" value="{{items}}">
-                <input type="radio" id="incorrect" name="problem" value="question incorrect">
-                <label for="incorrect">This question is wrong (double check first!)</label><br>
-                <input type="radio" id="placeholder" name="problem" value="question reads strangely">
-                <!--<label for="placeholder">PLACEHOLDER (or similar) appears in text</label><br>
-                <input type="radio" id="weird" name="problem" value="weird text">-->
-                <label for="weird">It just reads a bit weirdly</label><br>
-                <label for="other">Other:</label>
-                <input type="text" id="other" name="other"><br>
-                <input type="submit">(generates another question)</submit>
-            </form>
-        </details>
         <div class = 'help-links'>
             <!--
             <div class='text'>Dropped a mark? Read up on:</div>
@@ -163,12 +138,12 @@
 
         <div class='button-div'>
             <div class='next-question-wrapper'>
-                <div class='next' onclick=next_question()>Next Question</div>
+                <div class='next  question-page-button' onclick=next_question()>Next Question</div>
             </div>
         </div>
         
     </div>
-    
+
     
 </div>
 
