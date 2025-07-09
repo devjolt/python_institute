@@ -201,12 +201,15 @@ class RandomModuleView(TemplateView):
         
         # Put question list and items in context dictionary.
         context['url'] = self.request.path
+
         context['module'] = module_object_to_name_dict[module]
         context['key'] = key
         context['question'], context['items'] = template_question, items
         context['question_type'] = question_type # Question type may tell the template how to handle the question if needed.
         context['question_description'] = key # Question key, acting as a question description
         context['cert_name'] = re.sub('[0-9]+', '', module_str)# needed in case we switch to specific question
+        context['cert_url'] = self.request.path.split('/')[1]
+        
         context['module_name'] = module_object_to_name_dict[module]# question module name needed as above
         context['title'] = 'AWS Cloud Practitioner Practice'# may change later...
         context['question_description_link'] = 'https://duckduckgo.com/?q=aws+' + key.replace('_', '+') # used to link if needed
@@ -299,6 +302,7 @@ def specific_question_view(request, module_str, question):
     context['question_type'] = question_type # Question type may tell the template how to handle the question if needed.
     context['question_description'] = key # Question key, acting as a question description
     context['cert_name'] = re.sub('[0-9]+', '', module_str)# needed in case we switch to specific question
+    context['cert_url'] = self.request.path.split('/')[1]
     context['module_name'] = module_object_to_name_dict[module]# question module name needed as above
     context['title'] = 'AWS Cloud Practitioner Practice'# may change later...
     context['question_description_link'] = 'https://duckduckgo.com/?q=aws+' + key.replace('_', '+') # used to link if needed
