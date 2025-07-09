@@ -320,6 +320,7 @@ questions = {
     'description': 'Explore the concepts of shallow and deep operations in Python:',
     'question_with_0': ('What is best defined by the following topic:', 'PLACEHOLDER'),
     'question_with_1': ('What definition best fits the following topic:', 'PLACEHOLDER'),
+    'type':['make_items_question_from_pairs'],
     'pairs': (
         ('Shallow Copy', ('creates a new object', 'references original objects', 'changes in one affect the other')),
         ('Deep Copy', ('creates an independent object', 'creates copies of nested objects', 'independent of the original')),
@@ -351,6 +352,7 @@ questions = {
 'Inheritance, Polymorphism, Subclasses, and Encapsulation': {
     'question_with_0': ('What is best defined by the following topic:', 'PLACEHOLDER'),
     'question_with_1': ('What definition best fits the following topic:', 'PLACEHOLDER'),
+    'type':['make_items_question_from_pairs'],
     'pairs': (
         ('Inheritance', ('enables code reuse', 'establishes "is-a" relationships', 'promotes modularity')),
         ('Polymorphism', ('ability to take on multiple forms', 'includes method overloading', 'enhances flexibility')),
@@ -365,6 +367,7 @@ questions = {
 'Advanced Exception Handling Techniques': {
     'question_with_0': ('What is best defined by the following topic:', 'PLACEHOLDER'),
     'question_with_1': ('What definition best fits the following topic:', 'PLACEHOLDER'),
+    'type':['make_items_question_from_pairs'],
     'pairs': (
         ('Custom Exceptions', ('user-defined exception classes', 'allows specific error handling', 'inherits from the base Exception class')),
         ('Context Managers', ('manages resources using "with" statement', 'implements __enter__ and __exit__ methods', 'ensures proper resource cleanup')),
@@ -379,6 +382,7 @@ questions = {
 'Advanced Exception Handling Techniques 2': {
         'question_with_0': ('What is best defined by the following topic:', 'PLACEHOLDER'),
         'question_with_1': ('What definition best fits the following topic:', 'PLACEHOLDER'),
+        'type':['make_items_question_from_pairs'],
         'pairs': (
             ('Custom Exceptions', (
                 'user-defined exception classes',
@@ -418,6 +422,7 @@ questions = {
     'Pickle and Shelve Modules': {
         'question_with_0': ('What common functionality do the following modules provide:', 'PLACEHOLDER'),
         'question_with_1': ('Which description best fits the following modules:', 'PLACEHOLDER'),
+        'type':['make_items_question_from_pairs'],
         'pairs': (
             ('Pickle Module', (
                 'serialization and deserialization of Python objects',
@@ -452,6 +457,7 @@ questions = {
     'Metaclasses in Python': {
         'question_with_0': ('What is the primary purpose of the following concept:', 'PLACEHOLDER'),
         'question_with_1': ('Which definition best describes the following concept:', 'PLACEHOLDER'),
+        'type':['make_items_question_from_pairs'],
         'pairs': (
             ('Metaclasses', (
                 'define the behavior of classes',
@@ -499,6 +505,7 @@ questions = {
     'Object Persistence': {
         'question_with_0': ('What is the primary purpose of the following concept:', 'PLACEHOLDER'),
         'question_with_1': ('Which definition best describes the following concept:', 'PLACEHOLDER'),
+        'type':['make_items_question_from_pairs'],
         'pairs': (
             ('Object Persistence', (
                 'the ability to store and retrieve objects',
@@ -540,9 +547,6 @@ questions = {
             )),
         ),
     },
-
-
-
 }
 
 
